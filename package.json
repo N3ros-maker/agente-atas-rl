@@ -1,0 +1,9 @@
+{
+  "name": "agente-atas-rl",
+  "version": "1.0.0",
+  "dependencies": {
+    "formidable": "^3.5.1",
+    "form-data": "^4.0.0",
+    "node-fetch": "^2.7.0"
+  }
+}
