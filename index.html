@@ -60,33 +60,12 @@ select option { background: var(--dark2); }
 #freq-wrap { display: none; }
 #freq-wrap.visible { display: block; }
 
-/* ── GRAVADOR ── */
-.gravador {
-  background: var(--dark3);
-  border: 2px dashed var(--dark4);
-  border-radius: 12px;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  transition: border-color 0.3s;
-}
+.gravador { background: var(--dark3); border: 2px dashed var(--dark4); border-radius: 12px; padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 16px; transition: border-color 0.3s; }
 .gravador.gravando { border-color: var(--red); border-style: solid; }
 .gravador.transcrevendo { border-color: var(--gold); border-style: solid; }
 
-.btn-gravar {
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  border: none;
-  background: var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.3);
-  font-size: 28px;
-}
-.btn-gravar:hover { transform: scale(1.05); box-shadow: 0 6px 28px rgba(201,168,76,0.45); }
+.btn-gravar { width: 80px; height: 80px; border-radius: 50%; border: none; background: var(--gold); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px rgba(201,168,76,0.3); font-size: 28px; }
+.btn-gravar:hover { transform: scale(1.05); }
 .btn-gravar.gravando { background: var(--red); animation: pulse 1.5s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(224,92,92,0.4); } 50% { box-shadow: 0 0 0 16px rgba(224,92,92,0); } }
 
@@ -96,36 +75,18 @@ select option { background: var(--dark2); }
 
 .timer { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--white); letter-spacing: 3px; display: none; }
 .timer.show { display: block; }
-
 .audio-player { width: 100%; display: none; }
 .audio-player.show { display: block; }
 
-.ondas {
-  display: none;
-  gap: 3px;
-  align-items: center;
-  height: 32px;
-}
+.ondas { display: none; gap: 3px; align-items: center; height: 32px; }
 .ondas.show { display: flex; }
-.onda {
-  width: 4px;
-  background: var(--red);
-  border-radius: 2px;
-  animation: onda 0.8s ease-in-out infinite;
-  min-height: 4px;
-}
-.onda:nth-child(1) { animation-delay: 0s; }
-.onda:nth-child(2) { animation-delay: 0.1s; }
-.onda:nth-child(3) { animation-delay: 0.2s; }
-.onda:nth-child(4) { animation-delay: 0.3s; }
-.onda:nth-child(5) { animation-delay: 0.4s; }
-.onda:nth-child(6) { animation-delay: 0.3s; }
-.onda:nth-child(7) { animation-delay: 0.2s; }
-.onda:nth-child(8) { animation-delay: 0.1s; }
-.onda:nth-child(9) { animation-delay: 0s; }
+.onda { width: 4px; background: var(--red); border-radius: 2px; animation: onda 0.8s ease-in-out infinite; min-height: 4px; }
+.onda:nth-child(1){animation-delay:0s} .onda:nth-child(2){animation-delay:0.1s} .onda:nth-child(3){animation-delay:0.2s}
+.onda:nth-child(4){animation-delay:0.3s} .onda:nth-child(5){animation-delay:0.4s} .onda:nth-child(6){animation-delay:0.3s}
+.onda:nth-child(7){animation-delay:0.2s} .onda:nth-child(8){animation-delay:0.1s} .onda:nth-child(9){animation-delay:0s}
 @keyframes onda { 0%, 100% { height: 6px; } 50% { height: 28px; } }
 
-.ou-divisor { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+.ou-divisor { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin: 20px 0; }
 .ou-divisor::before, .ou-divisor::after { content: ''; flex: 1; height: 1px; background: var(--dark4); }
 
 .transcricao-wrap { position: relative; }
@@ -179,12 +140,11 @@ textarea#transcricao { min-height: 160px; resize: vertical; font-size: 13px; lin
       <p>RL Construções · Campina Grande - PB</p>
     </div>
   </div>
-  <div class="badge">VERSÃO 3.0</div>
+  <div class="badge">VERSÃO 4.0</div>
 </header>
 
 <main>
 
-  <!-- INFORMAÇÕES -->
   <div class="card">
     <div class="card-header">
       <div class="card-icon">📋</div>
@@ -261,7 +221,6 @@ textarea#transcricao { min-height: 160px; resize: vertical; font-size: 13px; lin
     </div>
   </div>
 
-  <!-- GRAVADOR -->
   <div class="card">
     <div class="card-header">
       <div class="card-icon">🎙️</div>
@@ -271,46 +230,35 @@ textarea#transcricao { min-height: 160px; resize: vertical; font-size: 13px; lin
       </div>
     </div>
 
-    <!-- Gravador -->
     <div class="gravador" id="gravador">
       <button class="btn-gravar" id="btn-gravar" onclick="toggleGravacao()">🎙️</button>
       <div class="ondas" id="ondas">
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
-        <div class="onda" style="height:6px"></div>
+        <div class="onda"></div><div class="onda"></div><div class="onda"></div>
+        <div class="onda"></div><div class="onda"></div><div class="onda"></div>
+        <div class="onda"></div><div class="onda"></div><div class="onda"></div>
       </div>
       <div class="timer" id="timer">00:00</div>
       <div class="gravador-status" id="gravador-status">Clique para iniciar a gravação</div>
       <audio class="audio-player" id="audio-player" controls></audio>
     </div>
 
-    <div class="ou-divisor" style="margin: 20px 0">ou cole a transcrição</div>
+    <div class="ou-divisor">ou cole a transcrição</div>
 
-    <!-- Transcrição manual -->
     <div class="transcricao-wrap">
       <textarea id="transcricao" placeholder="Cole aqui a transcrição exportada do TurboScribe..."></textarea>
       <span class="char-badge" id="char-count">0 chars</span>
     </div>
   </div>
 
-  <!-- BOTÃO GERAR -->
   <button class="btn-gerar" id="btn-gerar" onclick="gerarAta()">
     ⚡ GERAR ATA EM PDF
   </button>
 
-  <!-- STATUS -->
   <div class="status" id="status">
     <div class="spin" id="spin"></div>
     <span id="status-txt">Processando...</span>
   </div>
 
-  <!-- RESULTADO -->
   <div id="resultado" class="card">
     <div class="card-header">
       <div class="card-icon">✅</div>
@@ -331,7 +279,6 @@ textarea#transcricao { min-height: 160px; resize: vertical; font-size: 13px; lin
     </div>
   </div>
 
-  <!-- HISTÓRICO -->
   <div class="card">
     <div class="card-header">
       <div class="card-icon">🗂️</div>
@@ -348,15 +295,9 @@ textarea#transcricao { min-height: 160px; resize: vertical; font-size: 13px; lin
 </main>
 
 <script>
-// ── Estado ────────────────────────────────────────────────────────────────
-let mediaRecorder = null;
-let audioChunks = [];
-let audioBlob = null;
-let timerInterval = null;
-let segundos = 0;
-let gravando = false;
-let ataCompleta = "";
-let compromissosTexto = "";
+let mediaRecorder = null, audioChunks = [], audioBlob = null;
+let timerInterval = null, segundos = 0, gravando = false;
+let ataJson = null, compromissosTexto = "";
 let historico = [];
 
 document.getElementById('data').valueAsDate = new Date();
@@ -364,7 +305,6 @@ document.getElementById('transcricao').addEventListener('input', function() {
   document.getElementById('char-count').textContent = this.value.length.toLocaleString('pt-BR') + ' chars';
 });
 
-// ── Toggle Recorrente ─────────────────────────────────────────────────────
 function toggleRecorrente() {
   const cb = document.getElementById('recorrente');
   const row = document.getElementById('toggle-row');
@@ -374,7 +314,6 @@ function toggleRecorrente() {
   fw.classList.toggle('visible', cb.checked);
 }
 
-// ── Gravação ──────────────────────────────────────────────────────────────
 async function toggleGravacao() {
   if (!gravando) await iniciarGravacao();
   else pararGravacao();
@@ -389,30 +328,25 @@ async function iniciarGravacao() {
     mediaRecorder.onstop = async () => {
       audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
       const url = URL.createObjectURL(audioBlob);
-      const player = document.getElementById('audio-player');
-      player.src = url;
-      player.classList.add('show');
+      document.getElementById('audio-player').src = url;
+      document.getElementById('audio-player').classList.add('show');
       stream.getTracks().forEach(t => t.stop());
       await transcreverAudio();
     };
     mediaRecorder.start(1000);
-    gravando = true;
-    segundos = 0;
-
+    gravando = true; segundos = 0;
     document.getElementById('btn-gravar').textContent = '⏹️';
     document.getElementById('btn-gravar').classList.add('gravando');
     document.getElementById('ondas').classList.add('show');
     document.getElementById('timer').classList.add('show');
     document.getElementById('gravador').classList.add('gravando');
     setGravadorStatus('Gravando... Clique para parar', 'gravando');
-
     timerInterval = setInterval(() => {
       segundos++;
       const m = String(Math.floor(segundos / 60)).padStart(2, '0');
       const s = String(segundos % 60).padStart(2, '0');
       document.getElementById('timer').textContent = `${m}:${s}`;
     }, 1000);
-
   } catch (err) {
     setGravadorStatus('Erro ao acessar microfone: ' + err.message, '');
   }
@@ -435,20 +369,16 @@ async function transcreverAudio() {
     showStatus("Transcrevendo áudio com Whisper...", "loading");
     const formData = new FormData();
     formData.append('audio', audioBlob, 'audio.webm');
-
     const res = await fetch('/api/transcrever', { method: 'POST', body: formData });
     const json = await res.json();
-
     if (!res.ok) throw new Error(json.error || 'Erro na transcrição');
-
     document.getElementById('transcricao').value = json.transcricao;
     document.getElementById('char-count').textContent = json.transcricao.length.toLocaleString('pt-BR') + ' chars';
     document.getElementById('gravador').classList.remove('transcrevendo');
     setGravadorStatus('✅ Transcrição concluída! Revise e clique em Gerar Ata.', 'ok');
     showStatus("Transcrição concluída!", "ok");
-
   } catch (err) {
-    setGravadorStatus('Erro na transcrição: ' + err.message, '');
+    setGravadorStatus('Erro: ' + err.message, '');
     showStatus("Erro na transcrição: " + err.message, "err");
   }
 }
@@ -459,7 +389,6 @@ function setGravadorStatus(msg, tipo) {
   el.className = 'gravador-status' + (tipo ? ' ' + tipo : '');
 }
 
-// ── Gerar Ata ─────────────────────────────────────────────────────────────
 async function gerarAta() {
   const titulo = document.getElementById('titulo').value.trim();
   const dataVal = document.getElementById('data').value;
@@ -480,27 +409,50 @@ async function gerarAta() {
   setLoading(true);
   showStatus("Gerando ata com IA...", "loading");
 
-  const recInfo = recorrente ? `\nReunião RECORRENTE · Frequência: ${frequencia || "não informada"}. Ao final inclua obrigatoriamente a seção "⚠️ COMPROMISSOS PARA A PRÓXIMA REUNIÃO".` : "";
+  const recInfo = recorrente
+    ? `\nEsta é uma reunião RECORRENTE com frequência: ${frequencia || "não informada"}. Ao final inclua a seção COMPROMISSOS_PROXIMA_REUNIAO.`
+    : "";
 
   const prompt = `Você é um assistente especializado em gerar atas profissionais para a RL Construções, empresa de incorporação e construção civil de Campina Grande - PB.
 
-INFORMAÇÕES:
+Analise a transcrição e gere uma ata COMPLETA e BEM ESTRUTURADA em formato JSON.
+
+INFORMAÇÕES DA REUNIÃO:
 - Título: ${titulo}
 - Data: ${dataFmt}
 - Tipo: ${tipo}
 - Local: ${local}
 - Facilitador: ${facilitador}
-- Participantes: ${participantes}
-- Empresa: RL Construções${recInfo}
+- Participantes: ${participantes}${recInfo}
 
-INSTRUÇÕES:
-1. Ata formal em português brasileiro
-2. Seções: 1. TEMA GERAL, 2. PONTOS DISCUTIDOS, 3. DECISÕES TOMADAS, 4. PRÓXIMOS PASSOS, 5. OBSERVAÇÕES
-3. Destaque números, percentuais e prazos
-4. Identifique responsáveis por tarefas
-5. Preserve termos técnicos de construção civil
-6. Corrija erros de transcrição automática
-${recorrente ? '7. Seção "⚠️ COMPROMISSOS PARA A PRÓXIMA REUNIÃO" ao final' : ''}
+REGRAS IMPORTANTES:
+1. Seja detalhado e capture TODAS as informações relevantes
+2. Use linguagem formal e profissional
+3. Organize o conteúdo de forma lógica e hierárquica
+4. Destaque números, percentuais, valores e prazos
+5. Identifique claramente os responsáveis por cada tarefa
+6. Preserve termos técnicos de construção civil e negócios
+7. Corrija erros óbvios de transcrição automática
+8. Ignore marcas d'água de ferramentas (ex: "Transcrito por TurboScribe")
+9. NÃO use markdown (##, **, *, etc) no conteúdo - apenas texto limpo
+10. Seja específico e objetivo em cada seção
+
+Responda APENAS com este JSON (sem markdown, sem explicações):
+{
+  "tema_geral": "resumo claro do assunto principal em 2-3 frases",
+  "pontos_discutidos": [
+    {
+      "titulo": "Nome do tópico",
+      "itens": ["item detalhado 1", "item detalhado 2"]
+    }
+  ],
+  "decisoes_tomadas": ["decisão 1", "decisão 2"],
+  "proximos_passos": [
+    {"responsavel": "Nome ou cargo", "acao": "descrição da tarefa", "prazo": "prazo se mencionado"}
+  ],
+  "observacoes": ["observação relevante 1"],
+  "compromissos_proxima_reuniao": ["compromisso 1", "compromisso 2"]
+}
 
 TRANSCRIÇÃO:
 ${transcricao}`;
@@ -515,33 +467,61 @@ ${transcricao}`;
     const json = await res.json();
     if (!res.ok) throw new Error(json.error?.message || "Erro na API");
 
-    const texto = json.content?.[0]?.text || "";
-    let textoAta = texto;
-    compromissosTexto = "";
+    let texto = json.content?.[0]?.text || "";
+    texto = texto.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
 
-    if (recorrente) {
-      const idx = texto.indexOf("⚠️ COMPROMISSOS");
-      if (idx !== -1) {
-        textoAta = texto.substring(0, idx).trim();
-        compromissosTexto = texto.substring(idx).replace(/^⚠️ COMPROMISSOS PARA A PRÓXIMA REUNIÃO\n?/, '').trim();
-      }
+    let dados;
+    try {
+      dados = JSON.parse(texto);
+    } catch(e) {
+      // fallback: trata como texto puro
+      dados = { tema_geral: texto, pontos_discutidos: [], decisoes_tomadas: [], proximos_passos: [], observacoes: [], compromissos_proxima_reuniao: [] };
     }
 
-    const header = [
-      `REUNIÃO: ${titulo.toUpperCase()}`,
-      '─'.repeat(55),
-      `Tipo: ${tipo}${recorrente && frequencia ? ' | Frequência: ' + frequencia : ''}`,
-      `Data: ${dataFmt} | Local: ${local}`,
-      `Facilitador: ${facilitador}`,
-      `Participantes: ${participantes}`,
-      `Empresa: RL Construções`,
-      '─'.repeat(55),
-      ''
-    ].join('\n');
+    ataJson = { ...dados, titulo, tipo, dataFmt, local, facilitador, participantes, recorrente, frequencia };
+    compromissosTexto = (dados.compromissos_proxima_reuniao || []).join('\n');
 
-    ataCompleta = header + textoAta;
+    // Monta preview
+    let preview = `REUNIÃO: ${titulo.toUpperCase()}\n`;
+    preview += '─'.repeat(55) + '\n';
+    preview += `Tipo: ${tipo}${recorrente && frequencia ? ' | Frequência: ' + frequencia : ''}\n`;
+    preview += `Data: ${dataFmt} | Local: ${local}\n`;
+    preview += `Facilitador: ${facilitador}\n`;
+    preview += `Participantes: ${participantes}\n`;
+    preview += '─'.repeat(55) + '\n\n';
+    preview += `TEMA GERAL\n${dados.tema_geral}\n\n`;
 
-    document.getElementById('preview-box').textContent = ataCompleta;
+    if (dados.pontos_discutidos?.length > 0) {
+      preview += `PONTOS DISCUTIDOS\n`;
+      dados.pontos_discutidos.forEach(p => {
+        preview += `\n${p.titulo}\n`;
+        p.itens?.forEach(i => preview += `• ${i}\n`);
+      });
+      preview += '\n';
+    }
+
+    if (dados.decisoes_tomadas?.length > 0) {
+      preview += `DECISÕES TOMADAS\n`;
+      dados.decisoes_tomadas.forEach(d => preview += `• ${d}\n`);
+      preview += '\n';
+    }
+
+    if (dados.proximos_passos?.length > 0) {
+      preview += `PRÓXIMOS PASSOS\n`;
+      dados.proximos_passos.forEach(p => {
+        preview += `• [${p.responsavel}] ${p.acao}`;
+        if (p.prazo) preview += ` — Prazo: ${p.prazo}`;
+        preview += '\n';
+      });
+      preview += '\n';
+    }
+
+    if (dados.observacoes?.length > 0) {
+      preview += `OBSERVAÇÕES\n`;
+      dados.observacoes.forEach(o => preview += `• ${o}\n`);
+    }
+
+    document.getElementById('preview-box').textContent = preview;
 
     if (recorrente && compromissosTexto) {
       document.getElementById('compromissos-content').textContent = compromissosTexto;
@@ -552,7 +532,7 @@ ${transcricao}`;
 
     document.getElementById('resultado').classList.add('show');
     document.getElementById('resultado-sub').textContent = `${tipo} · ${dataFmt}`;
-    adicionarHistorico(titulo, dataFmt, tipo, ataCompleta, compromissosTexto, recorrente);
+    adicionarHistorico(titulo, dataFmt, tipo);
     showStatus("Ata gerada com sucesso!", "ok");
     setLoading(false);
     document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
@@ -563,103 +543,205 @@ ${transcricao}`;
   }
 }
 
-// ── PDF ───────────────────────────────────────────────────────────────────
 async function baixarPDF() {
-  if (!ataCompleta) return;
+  if (!ataJson) return;
   if (!window.jspdf) await carregarScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  const titulo = document.getElementById('titulo').value.trim() || "Reunião";
-  const tipo = document.getElementById('tipo').value || "";
-  const dataVal = document.getElementById('data').value;
-  const dataFmt = dataVal ? new Date(dataVal + 'T12:00:00').toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
-  const local = document.getElementById('local').value.trim() || "Não informado";
-  const facilitador = document.getElementById('facilitador').value.trim() || "Não informado";
-  const participantes = document.getElementById('participantes').value.trim() || "Não informado";
-  const recorrente = document.getElementById('recorrente').checked;
-  const frequencia = document.getElementById('frequencia').value;
+  const { titulo, tipo, dataFmt, local, facilitador, participantes, recorrente, frequencia } = ataJson;
+  const dados = ataJson;
 
   const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
   const ml = 18, mr = 18, cW = W - ml - mr;
   let y = 0;
 
-  const checkPage = (n) => { if (y + n > H - 22) { doc.addPage(); y = 18; } };
+  const checkPage = (n) => {
+    if (y + n > H - 22) { doc.addPage(); y = 18; }
+  };
 
-  doc.setFillColor(12, 12, 24); doc.rect(0, 0, W, 42, 'F');
-  doc.setFillColor(201, 168, 76); doc.rect(0, 42, W, 7, 'F');
-  doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor(201, 168, 76);
-  doc.text("ATA DE REUNIÃO", W / 2, 17, { align: 'center' });
-  doc.setFontSize(10); doc.setTextColor(240, 208, 128);
-  doc.text(titulo.toUpperCase(), W / 2, 27, { align: 'center' });
+  const escreverTexto = (texto, fontSize, cor, bold, maxW, indent) => {
+    doc.setFont("helvetica", bold ? "bold" : "normal");
+    doc.setFontSize(fontSize);
+    doc.setTextColor(...cor);
+    const w = doc.splitTextToSize(texto, maxW || cW);
+    checkPage(w.length * (fontSize * 0.4) + 3);
+    doc.text(w, ml + (indent || 0), y);
+    y += w.length * (fontSize * 0.4) + 2;
+    return w.length;
+  };
+
+  const secaoTitulo = (texto) => {
+    checkPage(14);
+    y += 4;
+    doc.setFillColor(201, 168, 76);
+    doc.rect(ml, y - 5, cW, 0.5, 'F');
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.setTextColor(15, 15, 30);
+    doc.setFillColor(201, 168, 76);
+    doc.rect(ml, y - 4, 3, 6, 'F');
+    doc.text(texto.toUpperCase(), ml + 6, y);
+    y += 8;
+  };
+
+  const bullet = (texto, indent) => {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    doc.setTextColor(40, 40, 60);
+    const w = doc.splitTextToSize('• ' + texto, cW - (indent || 6));
+    checkPage(w.length * 5 + 2);
+    doc.text(w, ml + (indent || 4), y);
+    y += w.length * 5 + 1.5;
+  };
+
+  // ── CABEÇALHO ──
+  doc.setFillColor(12, 12, 24);
+  doc.rect(0, 0, W, 44, 'F');
+  doc.setFillColor(201, 168, 76);
+  doc.rect(0, 44, W, 7, 'F');
+
+  doc.setFont("helvetica", "bold"); doc.setFontSize(24); doc.setTextColor(201, 168, 76);
+  doc.text("ATA DE REUNIÃO", W / 2, 18, { align: 'center' });
+
+  doc.setFontSize(11); doc.setTextColor(240, 208, 128);
+  doc.text(titulo.toUpperCase(), W / 2, 30, { align: 'center' });
+
   doc.setFontSize(8); doc.setTextColor(180, 180, 180);
-  doc.text(tipo.toUpperCase() + (recorrente && frequencia ? ' · ' + frequencia.toUpperCase() : ''), W / 2, 36, { align: 'center' });
+  doc.text(tipo.toUpperCase() + (recorrente && frequencia ? '  ·  ' + frequencia.toUpperCase() : ''), W / 2, 39, { align: 'center' });
+
   doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.setTextColor(12, 12, 24);
-  doc.text("RL CONSTRUÇÕES · " + dataFmt, W / 2, 46.5, { align: 'center' });
+  doc.text("RL CONSTRUÇÕES  ·  CAMPINA GRANDE - PB  ·  " + dataFmt, W / 2, 48, { align: 'center' });
 
-  y = 58;
-  doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(100, 100, 130);
-  doc.text(`Local: ${local}   |   Facilitador: ${facilitador}`, ml, y); y += 5.5;
-  doc.text(`Participantes: ${participantes}`, ml, y); y += 8;
-  doc.setDrawColor(201, 168, 76); doc.setLineWidth(0.5); doc.line(ml, y, W - mr, y); y += 8;
+  y = 62;
 
-  for (let linha of ataCompleta.split('\n')) {
-    if (/^(REUNIÃO:|─|Tipo:|Data:|Facilitador:|Participantes:|Empresa:)/.test(linha.trim())) continue;
-    if (!linha.trim()) { y += 3; continue; }
-    checkPage(12);
-    const isTitulo = /^\d+\./.test(linha.trim()) || (linha === linha.toUpperCase() && linha.trim().length > 3 && !/^[\-\*•]/.test(linha.trim()));
-    const isBullet = /^[\•\-\*]/.test(linha.trim());
-    if (isTitulo) {
-      y += 3;
-      doc.setFillColor(201, 168, 76); doc.rect(ml, y - 4.5, 2.5, 6, 'F');
-      doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(12, 12, 24);
-      const w = doc.splitTextToSize(linha.trim(), cW - 6);
-      checkPage(w.length * 5.5 + 6); doc.text(w, ml + 6, y); y += w.length * 5.5 + 4;
-    } else if (isBullet) {
-      doc.setFont("helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(40, 40, 60);
-      const txt = linha.replace(/^[\•\-\*]\s*/, '').trim();
-      const w = doc.splitTextToSize('• ' + txt, cW - 6);
-      checkPage(w.length * 5 + 2); doc.text(w, ml + 4, y); y += w.length * 5 + 1;
-    } else {
-      doc.setFont("helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(40, 40, 60);
-      const w = doc.splitTextToSize(linha.trim(), cW);
-      checkPage(w.length * 5 + 2); doc.text(w, ml, y); y += w.length * 5 + 1;
-    }
+  // Metadados
+  doc.setFillColor(245, 245, 250);
+  doc.rect(ml, y - 4, cW, 18, 'F');
+  doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(80, 80, 100);
+  doc.text(`Local: ${local}`, ml + 4, y); y += 5;
+  doc.text(`Facilitador: ${facilitador}`, ml + 4, y); y += 5;
+  doc.text(`Participantes: ${participantes}`, ml + 4, y); y += 10;
+
+  doc.setDrawColor(201, 168, 76); doc.setLineWidth(0.5);
+  doc.line(ml, y, W - mr, y); y += 8;
+
+  // ── TEMA GERAL ──
+  secaoTitulo("1. Tema Geral");
+  doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(40, 40, 60);
+  const temaW = doc.splitTextToSize(dados.tema_geral || '', cW);
+  checkPage(temaW.length * 5.5 + 4);
+  doc.text(temaW, ml, y); y += temaW.length * 5.5 + 6;
+
+  // ── PONTOS DISCUTIDOS ──
+  if (dados.pontos_discutidos?.length > 0) {
+    secaoTitulo("2. Pontos Discutidos");
+    dados.pontos_discutidos.forEach((ponto, idx) => {
+      checkPage(12);
+      doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(15, 15, 30);
+      const tW = doc.splitTextToSize(`${idx + 1}. ${ponto.titulo}`, cW - 4);
+      doc.text(tW, ml + 2, y); y += tW.length * 5 + 2;
+      ponto.itens?.forEach(item => bullet(item, 8));
+      y += 2;
+    });
   }
 
-  if (recorrente && compromissosTexto) {
+  // ── DECISÕES ──
+  if (dados.decisoes_tomadas?.length > 0) {
+    secaoTitulo("3. Decisões Tomadas");
+    dados.decisoes_tomadas.forEach(d => bullet(d));
+    y += 2;
+  }
+
+  // ── PRÓXIMOS PASSOS ──
+  if (dados.proximos_passos?.length > 0) {
+    secaoTitulo("4. Próximos Passos");
+
+    // Tabela
+    const colResp = 40, colAcao = cW - colResp - 30, colPrazo = 28;
+    const rowH = 8;
+
+    // Header
+    checkPage(rowH + 4);
+    doc.setFillColor(12, 12, 24);
+    doc.rect(ml, y - 5, cW, rowH, 'F');
+    doc.setFont("helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(201, 168, 76);
+    doc.text("RESPONSÁVEL", ml + 2, y);
+    doc.text("AÇÃO", ml + colResp + 2, y);
+    doc.text("PRAZO", ml + colResp + colAcao + 2, y);
+    y += rowH;
+
+    dados.proximos_passos.forEach((p, i) => {
+      const acaoW = doc.splitTextToSize(p.acao, colAcao - 4);
+      const h = Math.max(acaoW.length * 4.5 + 4, rowH);
+      checkPage(h + 2);
+
+      if (i % 2 === 0) {
+        doc.setFillColor(248, 248, 252);
+        doc.rect(ml, y - 5, cW, h, 'F');
+      }
+
+      doc.setFont("helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(15, 15, 30);
+      const respW = doc.splitTextToSize(p.responsavel || '-', colResp - 4);
+      doc.text(respW, ml + 2, y);
+
+      doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 60);
+      doc.text(acaoW, ml + colResp + 2, y);
+
+      doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(100, 100, 130);
+      doc.text(p.prazo || '-', ml + colResp + colAcao + 2, y);
+
+      doc.setDrawColor(220, 220, 230); doc.setLineWidth(0.3);
+      doc.line(ml, y + h - 5, ml + cW, y + h - 5);
+      y += h;
+    });
+    y += 4;
+  }
+
+  // ── OBSERVAÇÕES ──
+  if (dados.observacoes?.length > 0 && dados.observacoes[0]) {
+    secaoTitulo("5. Observações");
+    dados.observacoes.forEach(o => { if(o) bullet(o); });
+    y += 2;
+  }
+
+  // ── COMPROMISSOS ──
+  if (recorrente && dados.compromissos_proxima_reuniao?.length > 0) {
     checkPage(30); y += 6;
-    const sY = y - 4;
-    doc.setFillColor(255, 248, 220); doc.rect(ml, sY, cW, 8, 'F');
-    doc.setDrawColor(201, 168, 76); doc.setLineWidth(1); doc.rect(ml, sY, cW, 8);
-    doc.setLineWidth(3); doc.line(ml, sY, ml, sY + 8);
-    doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(120, 80, 0);
-    doc.text("⚠  COMPROMISSOS PARA A PRÓXIMA REUNIÃO", ml + 6, y + 1.5); y += 12;
-    doc.setFont("helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(40, 40, 60);
-    for (let linha of compromissosTexto.split('\n')) {
-      if (!linha.trim()) { y += 3; continue; }
-      checkPage(10);
-      const isBullet = /^[\•\-\*]/.test(linha.trim());
-      const txt = isBullet ? '• ' + linha.replace(/^[\•\-\*]\s*/, '').trim() : linha.trim();
-      const w = doc.splitTextToSize(txt, cW - 6);
-      doc.text(w, ml + (isBullet ? 4 : 0), y); y += w.length * 5 + 1;
-    }
+
+    doc.setFillColor(255, 248, 215);
+    doc.rect(ml, y - 5, cW, 10, 'F');
+    doc.setFillColor(201, 168, 76);
+    doc.rect(ml, y - 5, 4, 10, 'F');
+    doc.setDrawColor(201, 168, 76); doc.setLineWidth(0.8);
+    doc.rect(ml, y - 5, cW, 10);
+
+    doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(100, 65, 0);
+    doc.text("COMPROMISSOS PARA A PROXIMA REUNIAO", ml + 8, y + 1.5);
+    y += 14;
+
+    dados.compromissos_proxima_reuniao.forEach(c => {
+      if(c) bullet(c);
+    });
   }
 
+  // ── RODAPÉ ──
   const total = doc.internal.getNumberOfPages();
   for (let i = 1; i <= total; i++) {
-    doc.setPage(i); doc.setFont("helvetica", "italic"); doc.setFontSize(7.5); doc.setTextColor(160, 160, 160);
-    doc.text(`Ata gerada com IA · RL Construções · ${dataFmt} · Página ${i}/${total}`, W / 2, H - 8, { align: 'center' });
+    doc.setPage(i);
+    doc.setFillColor(12, 12, 24);
+    doc.rect(0, H - 12, W, 12, 'F');
+    doc.setFont("helvetica", "italic"); doc.setFontSize(7.5); doc.setTextColor(150, 150, 180);
+    doc.text(`Ata gerada com IA · RL Construções · ${dataFmt} · Página ${i}/${total}`, W / 2, H - 4, { align: 'center' });
   }
 
   doc.save(`Ata_${titulo.replace(/\s+/g,'_')}_${dataFmt.replace(/\//g,'-')}.pdf`);
   showStatus("PDF baixado!", "ok");
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────
 function copiar() {
-  const txt = ataCompleta + (compromissosTexto ? '\n\n⚠️ COMPROMISSOS PARA A PRÓXIMA REUNIÃO\n' + compromissosTexto : '');
-  navigator.clipboard.writeText(txt);
+  const el = document.getElementById('preview-box');
+  navigator.clipboard.writeText(el.textContent);
 }
 
 function novaAta() {
@@ -671,28 +753,25 @@ function novaAta() {
   document.getElementById('audio-player').classList.remove('show');
   document.getElementById('timer').classList.remove('show');
   setGravadorStatus('Clique para iniciar a gravação', '');
-  ataCompleta = ''; compromissosTexto = '';
+  ataJson = null; compromissosTexto = '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function adicionarHistorico(titulo, data, tipo, ata, comp, rec) {
-  historico.unshift({ titulo, data, tipo, ata, comp, rec });
+function adicionarHistorico(titulo, data, tipo) {
+  historico.unshift({ titulo, data, tipo, json: ataJson });
   const el = document.getElementById('hist-list');
   el.innerHTML = historico.map((item, i) => `
     <div class="hist-item">
       <div class="hist-info">
         <div class="hist-titulo">${item.titulo}</div>
-        <div class="hist-meta">${item.tipo} · ${item.data}${item.rec ? ' · Recorrente' : ''}</div>
+        <div class="hist-meta">${item.tipo} · ${item.data}</div>
       </div>
       <button class="hist-btn" onclick="redownload(${i})">⬇ PDF</button>
     </div>`).join('');
 }
 
 async function redownload(i) {
-  const item = historico[i];
-  ataCompleta = item.ata; compromissosTexto = item.comp;
-  document.getElementById('titulo').value = item.titulo;
-  document.getElementById('tipo').value = item.tipo;
+  ataJson = historico[i].json;
   await baixarPDF();
 }
 
