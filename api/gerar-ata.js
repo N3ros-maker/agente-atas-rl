@@ -17,8 +17,8 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
-        max_tokens: 2000,
-        system: 'Você é um assistente especializado em gerar atas profissionais. Responda APENAS com JSON válido, sem markdown, sem texto adicional, sem blocos de código.',
+        max_tokens: 4000,
+        system: 'Voce e um assistente especializado em gerar atas profissionais. Responda APENAS com JSON valido e completo, sem markdown, sem texto adicional. O JSON deve estar sempre completo e bem formado, nunca cortado.',
         messages: [{ role: 'user', content: prompt }],
       }),
     });
@@ -27,15 +27,20 @@ export default async function handler(req, res) {
     if (!response.ok) return res.status(response.status).json({ error: data.error?.message || 'Erro na API' });
 
     let texto = data.content?.[0]?.text || '{}';
-    // Remove qualquer markdown que possa ter escapado
     texto = texto.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-    
-    // Tenta parsear o JSON
+
     let ataJson;
     try {
       ataJson = JSON.parse(texto);
     } catch(e) {
-      return res.status(500).json({ error: 'Erro ao processar resposta da IA: ' + e.message, raw: texto });
+      ataJson = {
+        tema_geral: "Erro ao processar. Tente com uma transcricao menor ou divida em partes.",
+        pontos_discutidos: [],
+        decisoes_tomadas: [],
+        proximos_passos: [],
+        observacoes: ["Erro de processamento: " + e.message],
+        compromissos_proxima_reuniao: []
+      };
     }
 
     return res.status(200).json({ ata: ataJson });
