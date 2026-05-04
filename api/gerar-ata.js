@@ -25,7 +25,11 @@ export default async function handler(req, res) {
     const data = await response.json();
     if (!response.ok) return res.status(response.status).json({ error: data.error?.message || 'Erro na API' });
 
-    const texto = data.content?.[0]?.text || '';
+    let texto = data.content?.[0]?.text || '';
+    
+    // Remove markdown se escapar
+    texto = texto.replace(/\*\*/g, '').replace(/#{1,6}\s/g, '').replace(/---/g, '');
+
     return res.status(200).json({ texto });
 
   } catch (err) {
