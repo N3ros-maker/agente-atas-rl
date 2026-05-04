@@ -38,13 +38,9 @@ select option{background:var(--dark2)}
 .toggle-text small{display:block;font-size:11px;color:var(--muted)}
 #freq-wrap{display:none}
 #freq-wrap.visible{display:block}
-
-/* TABS */
 .tabs{display:flex;gap:2px;background:var(--dark3);border-radius:10px;padding:4px;margin-bottom:20px}
 .tab{flex:1;padding:10px;border:none;background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:8px;transition:all 0.2s}
 .tab.active{background:var(--dark2);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
-
-/* GRAVADOR */
 .tab-content{display:none}
 .tab-content.active{display:block}
 .gravador{background:var(--dark3);border:2px dashed var(--dark4);border-radius:12px;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px;transition:border-color 0.3s}
@@ -68,24 +64,21 @@ select option{background:var(--dark2)}
 .onda:nth-child(4){animation-delay:0.3s}.onda:nth-child(5){animation-delay:0.4s}.onda:nth-child(6){animation-delay:0.3s}
 .onda:nth-child(7){animation-delay:0.2s}.onda:nth-child(8){animation-delay:0.1s}.onda:nth-child(9){animation-delay:0s}
 @keyframes onda{0%,100%{height:6px}50%{height:28px}}
-
-/* UPLOAD */
 .upload-area{background:var(--dark3);border:2px dashed var(--dark4);border-radius:12px;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:border-color 0.3s;text-align:center}
-.upload-area:hover{border-color:var(--gold)}
-.upload-area.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05)}
+.upload-area:hover,.upload-area.dragover{border-color:var(--gold)}
 .upload-icon{font-size:36px}
 .upload-label{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
 .upload-sub{font-size:11px;color:var(--muted);opacity:0.7}
-.upload-formatos{font-size:11px;color:var(--gold);opacity:0.8;margin-top:4px}
-.arquivo-selecionado{display:none;background:rgba(62,207,142,0.1);border:1px solid rgba(62,207,142,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--green);align-items:center;gap:10px;margin-top:12px}
-.arquivo-selecionado.show{display:flex}
-
+.upload-formatos{font-size:11px;color:var(--gold);opacity:0.8}
+.arquivo-info{display:none;background:rgba(62,207,142,0.1);border:1px solid rgba(62,207,142,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--green);align-items:center;gap:10px;margin-top:12px}
+.arquivo-info.show{display:flex}
+.btn-transcrever{width:100%;padding:13px;background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:8px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;margin-top:14px;transition:background 0.2s}
+.btn-transcrever:hover{background:rgba(201,168,76,0.25)}
 .ou-divisor{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:20px 0}
 .ou-divisor::before,.ou-divisor::after{content:'';flex:1;height:1px;background:var(--dark4)}
 .transcricao-wrap{position:relative}
 textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height:1.65}
 .char-badge{position:absolute;bottom:10px;right:12px;font-size:10px;color:var(--muted);background:var(--dark3);padding:2px 8px;border-radius:10px;pointer-events:none}
-
 .btn-gerar{width:100%;padding:18px;background:var(--gold);border:none;border-radius:10px;color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 4px 24px rgba(201,168,76,0.2)}
 .btn-gerar:hover{background:var(--gold-lt)}
 .btn-gerar:disabled{background:var(--gold-dk);cursor:not-allowed;opacity:0.7}
@@ -95,30 +88,9 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
 .status.ok{border-left-color:var(--green);color:var(--green)}
 .spin{width:18px;height:18px;border:2px solid var(--dark4);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 #resultado{display:none}
 #resultado.show{display:block}
-
-/* PREVIEW ATA */
-.ata-preview{background:#faf9f6;border-radius:8px;padding:24px;max-height:480px;overflow-y:auto}
-.ata-cabecalho{background:#0F0F1A;color:#F0D080;padding:16px 20px;border-radius:6px;margin-bottom:16px}
-.ata-cab-titulo{font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:2px;font-weight:700;margin-bottom:4px}
-.ata-cab-info{font-size:11px;color:#9090b0;line-height:1.8}
-.ata-section{margin-bottom:16px}
-.ata-section-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;font-weight:700;border-left:3px solid #C9A84C;padding-left:8px;margin-bottom:8px}
-.ata-body{font-size:13px;color:#2a2a4a;line-height:1.8}
-.ata-bullet{font-size:13px;color:#2a2a4a;line-height:1.7;padding-left:14px;position:relative;margin-bottom:3px}
-.ata-bullet::before{content:'•';position:absolute;left:0;color:#C9A84C;font-weight:bold}
-.ata-subtitulo{font-size:13px;color:#1a1a3e;font-weight:600;margin:10px 0 4px}
-.ata-table{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}
-.ata-table th{background:#1a1a3e;color:#C9A84C;padding:8px 10px;text-align:left;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;font-size:11px}
-.ata-table td{padding:7px 10px;border-bottom:1px solid #e8e8f0;color:#333;vertical-align:top}
-.ata-table tr:nth-child(even) td{background:#f0f0f8}
-.ata-tag{display:inline-block;background:#1a1a3e;color:#C9A84C;font-size:10px;padding:2px 8px;border-radius:10px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-right:4px}
-.compromissos-box{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.35);border-left:4px solid var(--gold);border-radius:8px;padding:16px 20px;margin-top:14px;display:none}
-.compromissos-box.show{display:block}
-.compromissos-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px}
-
+.preview-box{background:#faf9f6;color:#1a1a2e;border-radius:8px;padding:24px;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:440px;overflow-y:auto;font-family:'Barlow',sans-serif}
 .btn-row{display:flex;gap:10px;margin-top:16px}
 .btn-sec{flex:1;padding:13px;background:transparent;border:1px solid var(--dark4);border-radius:8px;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
 .btn-sec:hover{border-color:var(--gold);color:var(--gold)}
@@ -140,18 +112,15 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
 <header>
   <div class="logo">
     <div class="logo-box">RL</div>
-    <div class="logo-text">
-      <h1>Agente de Atas</h1>
-      <p>RL Construções · Campina Grande - PB</p>
-    </div>
+    <div class="logo-text"><h1>Agente de Atas</h1><p>RL Construções · Campina Grande - PB</p></div>
   </div>
-  <div class="badge">VERSÃO 5.0</div>
+  <div class="badge">VERSÃO 6.0</div>
 </header>
 <main>
 
   <!-- INFORMAÇÕES -->
   <div class="card">
-    <div class="card-header"><div class="card-icon">📋</div><div><div class="card-title">Informações da Reunião</div><div class="card-sub">Preencha os dados antes de gravar</div></div></div>
+    <div class="card-header"><div class="card-icon">📋</div><div><div class="card-title">Informações da Reunião</div><div class="card-sub">Preencha antes de gerar a ata</div></div></div>
     <div class="grid-2">
       <div class="field"><label>Título / Assunto *</label><input type="text" id="titulo" placeholder="Ex: Reunião de Obra - Loteamento WB"/></div>
       <div class="field"><label>Data *</label><input type="date" id="data"/></div>
@@ -168,7 +137,7 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
       <div class="field"><label>Local / Plataforma</label><input type="text" id="local" placeholder="Ex: Sala de reunião"/></div>
     </div>
     <div class="field"><label>Facilitador / Responsável</label><input type="text" id="facilitador" placeholder="Ex: Armando / Consultoria externa"/></div>
-    <div class="field"><label>Participantes (separados por vírgula)</label><input type="text" id="participantes" placeholder="Ex: Armando, Tiago, César, Mateus..."/></div>
+    <div class="field"><label>Participantes</label><input type="text" id="participantes" placeholder="Ex: Armando, Tiago, César, Mateus..."/></div>
     <div class="field" style="margin-bottom:0">
       <label>Recorrência</label>
       <label class="toggle-row" id="toggle-row" onclick="toggleRecorrente()">
@@ -179,86 +148,63 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
     </div>
     <div id="freq-wrap" class="field" style="margin-top:12px;margin-bottom:0">
       <label>Frequência</label>
-      <select id="frequencia">
-        <option value="">Selecione...</option>
-        <option>Semanal</option><option>Quinzenal</option><option>Mensal</option><option>Bimestral</option>
-      </select>
+      <select id="frequencia"><option value="">Selecione...</option><option>Semanal</option><option>Quinzenal</option><option>Mensal</option><option>Bimestral</option></select>
     </div>
   </div>
 
-  <!-- GRAVAÇÃO / UPLOAD / TRANSCRIÇÃO -->
+  <!-- ÁUDIO -->
   <div class="card">
     <div class="card-header"><div class="card-icon">🎙️</div><div><div class="card-title">Áudio da Reunião</div><div class="card-sub">Grave ao vivo, envie um arquivo ou cole a transcrição</div></div></div>
-
-    <!-- Tabs -->
     <div class="tabs">
-      <button class="tab active" onclick="mudarTab('gravar')">🎙️ Gravar ao vivo</button>
-      <button class="tab" onclick="mudarTab('upload')">📁 Enviar arquivo</button>
-      <button class="tab" onclick="mudarTab('texto')">📝 Colar transcrição</button>
+      <button class="tab active" onclick="mudarTab('gravar')">🎙️ Gravar</button>
+      <button class="tab" onclick="mudarTab('upload')">📁 Arquivo</button>
+      <button class="tab" onclick="mudarTab('texto')">📝 Transcrição</button>
     </div>
 
-    <!-- Tab: Gravar -->
+    <!-- Gravar -->
     <div class="tab-content active" id="tab-gravar">
       <div class="gravador" id="gravador">
         <button class="btn-gravar" id="btn-gravar" onclick="toggleGravacao()">🎙️</button>
-        <div class="ondas" id="ondas">
-          <div class="onda"></div><div class="onda"></div><div class="onda"></div>
-          <div class="onda"></div><div class="onda"></div><div class="onda"></div>
-          <div class="onda"></div><div class="onda"></div><div class="onda"></div>
-        </div>
+        <div class="ondas" id="ondas"><div class="onda"></div><div class="onda"></div><div class="onda"></div><div class="onda"></div><div class="onda"></div><div class="onda"></div><div class="onda"></div><div class="onda"></div><div class="onda"></div></div>
         <div class="timer" id="timer">00:00</div>
         <div class="gravador-status" id="gravador-status">Clique para iniciar a gravação</div>
         <audio class="audio-player" id="audio-player" controls></audio>
       </div>
     </div>
 
-    <!-- Tab: Upload -->
+    <!-- Upload -->
     <div class="tab-content" id="tab-upload">
       <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
         <div class="upload-icon">📂</div>
         <div class="upload-label">Clique ou arraste o arquivo de áudio</div>
-        <div class="upload-sub">Gravado pelo celular, Samsung Voice Recorder, TurboScribe, etc.</div>
-        <div class="upload-formatos">Formatos aceitos: M4A, MP3, WAV, OGG, WEBM, MP4</div>
+        <div class="upload-sub">Gravado pelo Samsung Voice Recorder, celular, etc.</div>
+        <div class="upload-formatos">M4A · MP3 · WAV · OGG · WEBM · MP4</div>
       </div>
       <input type="file" id="file-input" accept="audio/*,.m4a,.mp3,.wav,.ogg,.webm,.mp4" style="display:none" onchange="arquivoSelecionado(this)">
-      <div class="arquivo-selecionado" id="arquivo-selecionado">
-        <span>✅</span>
-        <span id="nome-arquivo">arquivo.m4a</span>
-        <button onclick="removerArquivo()" style="margin-left:auto;background:none;border:none;color:var(--red);cursor:pointer;font-size:16px">✕</button>
+      <div class="arquivo-info" id="arquivo-info">
+        <span>✅</span><span id="nome-arquivo"></span>
+        <button onclick="removerArquivo()" style="margin-left:auto;background:none;border:none;color:var(--red);cursor:pointer;font-size:18px">✕</button>
       </div>
-      <div style="margin-top:14px">
-        <button onclick="transcreverUpload()" id="btn-transcrever-upload" style="width:100%;padding:13px;background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:8px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:all 0.2s" onmouseover="this.style.background='rgba(201,168,76,0.25)'" onmouseout="this.style.background='rgba(201,168,76,0.15)'">
-          🔄 Transcrever Arquivo
-        </button>
-      </div>
+      <button class="btn-transcrever" onclick="transcreverUpload()">🔄 Transcrever Arquivo</button>
     </div>
 
-    <!-- Tab: Texto -->
+    <!-- Texto -->
     <div class="tab-content" id="tab-texto">
       <div class="transcricao-wrap">
-        <textarea id="transcricao" placeholder="Cole aqui a transcrição exportada do TurboScribe..."></textarea>
+        <textarea id="transcricao" placeholder="Cole aqui a transcrição da reunião..."></textarea>
         <span class="char-badge" id="char-count">0 chars</span>
       </div>
     </div>
   </div>
 
-  <!-- BOTÃO GERAR -->
   <button class="btn-gerar" id="btn-gerar" onclick="gerarAta()">⚡ GERAR ATA EM PDF</button>
 
-  <!-- STATUS -->
-  <div class="status" id="status">
-    <div class="spin" id="spin"></div>
-    <span id="status-txt">Processando...</span>
-  </div>
+  <div class="status" id="status"><div class="spin" id="spin"></div><span id="status-txt">Processando...</span></div>
 
   <!-- RESULTADO -->
   <div id="resultado" class="card">
-    <div class="card-header"><div class="card-icon">✅</div><div><div class="card-title">Ata Gerada</div><div class="card-sub" id="resultado-sub">Revise antes de baixar o PDF</div></div></div>
-    <div class="ata-preview" id="ata-preview"></div>
-    <div class="compromissos-box" id="compromissos-box">
-      <div class="compromissos-title">⚠️ Compromissos para a Próxima Reunião</div>
-      <div id="compromissos-lista"></div>
-    </div>
+    <div class="card-header"><div class="card-icon">✅</div><div><div class="card-title">Ata Gerada</div><div class="card-sub" id="resultado-sub"></div></div></div>
+    <div class="preview-box" id="preview-box"></div>
     <div class="btn-row">
       <button class="btn-sec" onclick="novaAta()">🔄 Nova Ata</button>
       <button class="btn-pdf" onclick="baixarPDF()">⬇ Baixar PDF</button>
@@ -273,85 +219,63 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
 
 </main>
 <script>
-// ── Estado ────────────────────────────────────────────────────────
 let mediaRecorder=null,audioChunks=[],audioBlob=null,uploadBlob=null;
 let timerInterval=null,segundos=0,gravando=false;
-let ataData=null,historico=[];
+let ataMeta=null,ataTexto='',historico=[];
 
 document.getElementById('data').valueAsDate=new Date();
 document.getElementById('transcricao').addEventListener('input',function(){
   document.getElementById('char-count').textContent=this.value.length.toLocaleString('pt-BR')+' chars';
 });
 
-// ── Tabs ──────────────────────────────────────────────────────────
 function mudarTab(id){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['gravar','upload','texto'][i]===id));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
 }
 
-// ── Toggle Recorrente ─────────────────────────────────────────────
 function toggleRecorrente(){
   const cb=document.getElementById('recorrente');
   const row=document.getElementById('toggle-row');
-  const fw=document.getElementById('freq-wrap');
   cb.checked=!cb.checked;
   row.classList.toggle('on',cb.checked);
-  fw.classList.toggle('visible',cb.checked);
+  document.getElementById('freq-wrap').classList.toggle('visible',cb.checked);
 }
 
-// ── Upload de arquivo ─────────────────────────────────────────────
+// Upload
 function arquivoSelecionado(input){
   if(!input.files[0])return;
-  const f=input.files[0];
-  uploadBlob=f;
-  document.getElementById('nome-arquivo').textContent=f.name+' ('+formatBytes(f.size)+')';
-  document.getElementById('arquivo-selecionado').classList.add('show');
+  uploadBlob=input.files[0];
+  document.getElementById('nome-arquivo').textContent=uploadBlob.name+' ('+formatBytes(uploadBlob.size)+')';
+  document.getElementById('arquivo-info').classList.add('show');
 }
-
 function dragOver(e){e.preventDefault();document.getElementById('upload-area').classList.add('dragover')}
-function dragLeave(e){document.getElementById('upload-area').classList.remove('dragover')}
+function dragLeave(){document.getElementById('upload-area').classList.remove('dragover')}
 function dropFile(e){
-  e.preventDefault();
-  document.getElementById('upload-area').classList.remove('dragover');
+  e.preventDefault();document.getElementById('upload-area').classList.remove('dragover');
   const f=e.dataTransfer.files[0];
-  if(f&&f.type.startsWith('audio/')){
-    uploadBlob=f;
-    document.getElementById('nome-arquivo').textContent=f.name+' ('+formatBytes(f.size)+')';
-    document.getElementById('arquivo-selecionado').classList.add('show');
-  }
+  if(f){uploadBlob=f;document.getElementById('nome-arquivo').textContent=f.name;document.getElementById('arquivo-info').classList.add('show')}
 }
-
-function removerArquivo(){
-  uploadBlob=null;
-  document.getElementById('file-input').value='';
-  document.getElementById('arquivo-selecionado').classList.remove('show');
-}
-
-function formatBytes(b){
-  if(b<1024*1024)return (b/1024).toFixed(1)+' KB';
-  return (b/(1024*1024)).toFixed(1)+' MB';
-}
+function removerArquivo(){uploadBlob=null;document.getElementById('file-input').value='';document.getElementById('arquivo-info').classList.remove('show')}
+function formatBytes(b){return b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 
 async function transcreverUpload(){
   if(!uploadBlob)return showStatus('Selecione um arquivo de áudio primeiro.','err');
-  showStatus('Transcrevendo arquivo com Whisper...','loading');
+  showStatus('Transcrevendo com Whisper...','loading');
   try{
-    const fd=new FormData();
-    fd.append('audio',uploadBlob,uploadBlob.name||'audio.m4a');
+    const fd=new FormData();fd.append('audio',uploadBlob,uploadBlob.name||'audio.m4a');
     const res=await fetch('/api/transcrever',{method:'POST',body:fd});
     const json=await res.json();
-    if(!res.ok)throw new Error(json.error||'Erro na transcrição');
+    if(!res.ok)throw new Error(json.error||'Erro');
     mudarTab('texto');
     document.getElementById('transcricao').value=json.transcricao;
     document.getElementById('char-count').textContent=json.transcricao.length.toLocaleString('pt-BR')+' chars';
-    showStatus('✅ Transcrição concluída! Revise e clique em Gerar Ata.','ok');
+    showStatus('Transcrição concluída! Clique em Gerar Ata.','ok');
   }catch(err){showStatus('Erro: '+err.message,'err')}
 }
 
-// ── Gravação ao vivo ──────────────────────────────────────────────
+// Gravação
 async function toggleGravacao(){if(!gravando)await iniciarGravacao();else pararGravacao()}
-
 async function iniciarGravacao(){
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
@@ -365,8 +289,7 @@ async function iniciarGravacao(){
       stream.getTracks().forEach(t=>t.stop());
       await transcreverGravacao();
     };
-    mediaRecorder.start(1000);
-    gravando=true;segundos=0;
+    mediaRecorder.start(1000);gravando=true;segundos=0;
     document.getElementById('btn-gravar').textContent='⏹️';
     document.getElementById('btn-gravar').classList.add('gravando');
     document.getElementById('ondas').classList.add('show');
@@ -375,30 +298,24 @@ async function iniciarGravacao(){
     setGravStatus('Gravando... Clique para parar','gravando');
     timerInterval=setInterval(()=>{
       segundos++;
-      const m=String(Math.floor(segundos/60)).padStart(2,'0');
-      const s=String(segundos%60).padStart(2,'0');
-      document.getElementById('timer').textContent=`${m}:${s}`;
+      document.getElementById('timer').textContent=String(Math.floor(segundos/60)).padStart(2,'0')+':'+String(segundos%60).padStart(2,'0');
     },1000);
   }catch(err){setGravStatus('Erro ao acessar microfone: '+err.message,'')}
 }
-
 function pararGravacao(){
   if(mediaRecorder&&mediaRecorder.state!=='inactive')mediaRecorder.stop();
-  clearInterval(timerInterval);
-  gravando=false;
+  clearInterval(timerInterval);gravando=false;
   document.getElementById('btn-gravar').textContent='🎙️';
   document.getElementById('btn-gravar').classList.remove('gravando');
   document.getElementById('ondas').classList.remove('show');
   document.getElementById('gravador').classList.remove('gravando');
   document.getElementById('gravador').classList.add('transcrevendo');
-  setGravStatus('Transcrevendo com IA...','');
+  setGravStatus('Transcrevendo...','');
 }
-
 async function transcreverGravacao(){
   try{
-    showStatus('Transcrevendo áudio com Whisper...','loading');
-    const fd=new FormData();
-    fd.append('audio',audioBlob,'audio.webm');
+    showStatus('Transcrevendo com Whisper...','loading');
+    const fd=new FormData();fd.append('audio',audioBlob,'audio.webm');
     const res=await fetch('/api/transcrever',{method:'POST',body:fd});
     const json=await res.json();
     if(!res.ok)throw new Error(json.error||'Erro');
@@ -408,19 +325,14 @@ async function transcreverGravacao(){
     document.getElementById('gravador').classList.remove('transcrevendo');
     setGravStatus('✅ Transcrição concluída!','ok');
     showStatus('Transcrição concluída! Clique em Gerar Ata.','ok');
-  }catch(err){
-    setGravStatus('Erro: '+err.message,'');
-    showStatus('Erro na transcrição: '+err.message,'err');
-  }
+  }catch(err){setGravStatus('Erro: '+err.message,'');showStatus('Erro: '+err.message,'err')}
 }
-
 function setGravStatus(msg,tipo){
   const el=document.getElementById('gravador-status');
-  el.textContent=msg;
-  el.className='gravador-status'+(tipo?' '+tipo:'');
+  el.textContent=msg;el.className='gravador-status'+(tipo?' '+tipo:'');
 }
 
-// ── Gerar Ata ─────────────────────────────────────────────────────
+// Gerar Ata
 async function gerarAta(){
   const titulo=document.getElementById('titulo').value.trim();
   const dataVal=document.getElementById('data').value;
@@ -434,280 +346,142 @@ async function gerarAta(){
 
   if(!titulo)return showStatus('Preencha o título da reunião.','err');
   if(!tipo)return showStatus('Selecione o tipo de reunião.','err');
-  if(!transcricao)return showStatus('Grave, envie ou cole uma transcrição antes de gerar.','err');
+  if(!transcricao)return showStatus('Cole ou grave uma transcrição antes de gerar.','err');
 
   const dataFmt=dataVal?new Date(dataVal+'T12:00:00').toLocaleDateString('pt-BR'):new Date().toLocaleDateString('pt-BR');
+  ataMeta={titulo,tipo,dataFmt,local,facilitador,participantes,recorrente,frequencia};
 
   setLoading(true);
   showStatus('Gerando ata com IA...','loading');
 
-  const recInfo=recorrente?`\nReunião RECORRENTE · Frequência: ${frequencia||'não informada'}. Inclua a seção compromissos_proxima_reuniao com tudo que precisa ser acompanhado na próxima reunião.`:'';
+  const recInfo=recorrente?`\nEsta e uma reuniao RECORRENTE com frequencia: ${frequencia||'nao informada'}. Inclua ao final uma secao chamada "COMPROMISSOS PARA A PROXIMA REUNIAO" destacando tudo que precisa ser acompanhado.`:'';
 
-  const prompt=`Você é um assistente especializado em gerar atas profissionais para a RL Construções, empresa de incorporação e construção civil de Campina Grande - PB.
+  const prompt=`Voce e um assistente especializado em gerar atas profissionais para a RL Construcoes, empresa de incorporacao e construcao civil de Campina Grande - PB.
 
-Analise a transcrição abaixo e gere uma ata DETALHADA e BEM ESTRUTURADA.
+Analise a transcricao abaixo e gere uma ata COMPLETA, DETALHADA e BEM ORGANIZADA.
 
-INFORMAÇÕES:
-- Título: ${titulo}
+INFORMACOES DA REUNIAO:
+- Titulo: ${titulo}
 - Data: ${dataFmt}
 - Tipo: ${tipo}
 - Local: ${local}
 - Facilitador: ${facilitador}
 - Participantes: ${participantes}${recInfo}
 
-REGRAS:
-1. Capture TODAS as informações relevantes da transcrição
-2. Use linguagem formal e profissional em português
-3. Organize de forma lógica e hierárquica
-4. Destaque números, percentuais e prazos importantes
-5. Identifique responsáveis por tarefas
-6. Preserve termos técnicos de construção civil e negócios
-7. Corrija erros de transcrição automática
-8. Ignore marcas d'água de ferramentas
-9. NUNCA use markdown (##, **, *, etc) - apenas texto limpo
-10. Seja específico e detalhado
+INSTRUCOES:
+1. Organize nas secoes: 1. TEMA GERAL, 2. PONTOS DISCUTIDOS, 3. DECISOES TOMADAS, 4. PROXIMOS PASSOS, 5. OBSERVACOES
+2. Use linguagem formal e profissional
+3. Capture TODOS os pontos importantes
+4. Destaque numeros, percentuais e prazos
+5. Identifique responsaveis por tarefas
+6. Preserve termos tecnicos de construcao civil
+7. Corrija erros de transcricao automatica
+8. Ignore marcas d agua de ferramentas
+9. Use texto limpo sem markdown especial
 
-Responda SOMENTE com este JSON válido (sem markdown, sem texto extra):
-{
-  "tema_geral": "resumo do assunto principal em 2-3 frases objetivas",
-  "pontos_discutidos": [
-    {"titulo": "Nome do tópico", "itens": ["detalhe 1", "detalhe 2"]}
-  ],
-  "decisoes_tomadas": ["decisão clara e objetiva 1", "decisão 2"],
-  "proximos_passos": [
-    {"responsavel": "Nome/Cargo", "acao": "descrição da tarefa", "prazo": "prazo ou vazio"}
-  ],
-  "observacoes": ["observação relevante"],
-  "compromissos_proxima_reuniao": ["compromisso 1", "compromisso 2"]
-}
-
-TRANSCRIÇÃO:
+TRANSCRICAO:
 ${transcricao}`;
 
   try{
     const res=await fetch('/api/gerar-ata',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
+      method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({prompt})
     });
     const json=await res.json();
     if(!res.ok)throw new Error(json.error||'Erro na API');
     if(json.error)throw new Error(json.error);
 
-    const dados=json.ata;
-    ataData={...dados,titulo,tipo,dataFmt,local,facilitador,participantes,recorrente,frequencia};
-
-    renderizarPreview(ataData);
-
-    if(recorrente&&dados.compromissos_proxima_reuniao?.length>0){
-      const lista=document.getElementById('compromissos-lista');
-      lista.innerHTML=dados.compromissos_proxima_reuniao.map(c=>`<div class="ata-bullet" style="color:#2a2a2a;margin-bottom:6px">${c}</div>`).join('');
-      document.getElementById('compromissos-box').classList.add('show');
-    }else{
-      document.getElementById('compromissos-box').classList.remove('show');
-    }
-
+    ataTexto=json.texto||'';
+    document.getElementById('preview-box').textContent=ataTexto;
     document.getElementById('resultado').classList.add('show');
     document.getElementById('resultado-sub').textContent=`${tipo} · ${dataFmt}`;
     adicionarHistorico(titulo,dataFmt,tipo);
     showStatus('Ata gerada com sucesso!','ok');
     setLoading(false);
     document.getElementById('resultado').scrollIntoView({behavior:'smooth'});
-
   }catch(err){
     showStatus('Erro: '+err.message,'err');
     setLoading(false);
   }
 }
 
-function renderizarPreview(d){
-  const el=document.getElementById('ata-preview');
-  let html=`
-    <div class="ata-cabecalho">
-      <div class="ata-cab-titulo">${d.titulo.toUpperCase()}</div>
-      <div class="ata-cab-info">
-        <span class="ata-tag">${d.tipo}</span>${d.recorrente&&d.frequencia?`<span class="ata-tag">${d.frequencia}</span>`:''}<br>
-        📅 ${d.dataFmt} &nbsp;|&nbsp; 📍 ${d.local}<br>
-        👤 Facilitador: ${d.facilitador}<br>
-        👥 ${d.participantes}
-      </div>
-    </div>`;
-
-  // Tema Geral
-  html+=`<div class="ata-section"><div class="ata-section-title">1. Tema Geral</div><div class="ata-body">${d.tema_geral||''}</div></div>`;
-
-  // Pontos Discutidos
-  if(d.pontos_discutidos?.length>0){
-    html+=`<div class="ata-section"><div class="ata-section-title">2. Pontos Discutidos</div>`;
-    d.pontos_discutidos.forEach((p,i)=>{
-      html+=`<div class="ata-subtitulo">${i+1}. ${p.titulo}</div>`;
-      p.itens?.forEach(item=>html+=`<div class="ata-bullet">${item}</div>`);
-    });
-    html+=`</div>`;
-  }
-
-  // Decisões
-  if(d.decisoes_tomadas?.length>0){
-    html+=`<div class="ata-section"><div class="ata-section-title">3. Decisões Tomadas</div>`;
-    d.decisoes_tomadas.forEach(dec=>html+=`<div class="ata-bullet">${dec}</div>`);
-    html+=`</div>`;
-  }
-
-  // Próximos Passos
-  if(d.proximos_passos?.length>0){
-    html+=`<div class="ata-section"><div class="ata-section-title">4. Próximos Passos</div>
-    <table class="ata-table"><tr><th>Responsável</th><th>Ação</th><th>Prazo</th></tr>`;
-    d.proximos_passos.forEach(p=>{
-      html+=`<tr><td><strong>${p.responsavel||'-'}</strong></td><td>${p.acao||'-'}</td><td>${p.prazo||'-'}</td></tr>`;
-    });
-    html+=`</table></div>`;
-  }
-
-  // Observações
-  if(d.observacoes?.length>0&&d.observacoes[0]){
-    html+=`<div class="ata-section"><div class="ata-section-title">5. Observações</div>`;
-    d.observacoes.forEach(o=>{if(o)html+=`<div class="ata-bullet">${o}</div>`});
-    html+=`</div>`;
-  }
-
-  el.innerHTML=html;
-}
-
-// ── PDF ───────────────────────────────────────────────────────────
+// PDF
 async function baixarPDF(){
-  if(!ataData)return;
+  if(!ataTexto||!ataMeta)return;
   if(!window.jspdf)await carregarScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
 
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:'mm',format:'a4'});
-  const d=ataData;
+  const{titulo,tipo,dataFmt,local,facilitador,participantes,recorrente,frequencia}=ataMeta;
   const W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight();
   const ml=18,mr=18,cW=W-ml-mr;
   let y=0;
 
-  const newPage=()=>{doc.addPage();y=18};
-  const check=(n)=>{if(y+n>H-20)newPage()};
+  const checkPage=(n)=>{if(y+n>H-20){doc.addPage();y=18}};
 
-  const txt=(texto,fs,cor,bold,x,maxW)=>{
-    doc.setFont('helvetica',bold?'bold':'normal');
-    doc.setFontSize(fs);
-    doc.setTextColor(...cor);
-    const w=doc.splitTextToSize(String(texto||''),maxW||cW);
-    check(w.length*(fs*0.38)+2);
-    doc.text(w,x||ml,y);
-    y+=w.length*(fs*0.38)+2;
-  };
-
-  // ── CABEÇALHO ──
+  // CABEÇALHO
   doc.setFillColor(12,12,24);doc.rect(0,0,W,44,'F');
   doc.setFillColor(201,168,76);doc.rect(0,44,W,7,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(22);doc.setTextColor(201,168,76);
-  doc.text('ATA DE REUNIÃO',W/2,17,{align:'center'});
+  doc.text('ATA DE REUNIAO',W/2,17,{align:'center'});
   doc.setFontSize(11);doc.setTextColor(240,208,128);
-  doc.text(d.titulo.toUpperCase(),W/2,29,{align:'center'});
+  doc.text(titulo.toUpperCase(),W/2,29,{align:'center'});
   doc.setFontSize(8);doc.setTextColor(160,160,180);
-  doc.text(d.tipo.toUpperCase()+(d.recorrente&&d.frequencia?' · '+d.frequencia.toUpperCase():''),W/2,38,{align:'center'});
+  doc.text(tipo.toUpperCase()+(recorrente&&frequencia?' · '+frequencia.toUpperCase():''),W/2,38,{align:'center'});
   doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(12,12,24);
-  doc.text('RL CONSTRUÇÕES · CAMPINA GRANDE - PB · '+d.dataFmt,W/2,48,{align:'center'});
+  doc.text('RL CONSTRUCOES · CAMPINA GRANDE - PB · '+dataFmt,W/2,48,{align:'center'});
 
-  y=60;
-  // Metadados
+  y=62;
   doc.setFillColor(240,240,248);doc.rect(ml,y-5,cW,20,'F');
-  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(80,80,110);
-  doc.text(`Local: ${d.local}   |   Facilitador: ${d.facilitador}`,ml+4,y);y+=6;
-  doc.text(`Participantes: ${d.participantes}`,ml+4,y);y+=10;
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(80,80,110);
+  doc.text('Local: '+local+'   |   Facilitador: '+facilitador,ml+3,y);y+=6;
+  doc.text('Participantes: '+participantes,ml+3,y);y+=10;
   doc.setDrawColor(201,168,76);doc.setLineWidth(0.5);doc.line(ml,y,W-mr,y);y+=8;
 
-  const secao=(num,titulo)=>{
-    check(14);y+=3;
-    doc.setFillColor(201,168,76);doc.rect(ml,y-5,3,7,'F');
-    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(12,12,24);
-    doc.text(`${num}. ${titulo.toUpperCase()}`,ml+6,y);
-    y+=9;
-    doc.setDrawColor(230,230,240);doc.setLineWidth(0.3);doc.line(ml,y-2,W-mr,y-2);
-  };
+  // CONTEÚDO — processa linha a linha
+  const linhas=ataTexto.split('\n');
 
-  const bullet=(texto,indent)=>{
-    doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(40,40,60);
-    const w=doc.splitTextToSize('• '+String(texto||''),cW-(indent||6));
-    check(w.length*5+2);
-    doc.text(w,ml+(indent||4),y);y+=w.length*5+1.5;
-  };
+  for(const linha of linhas){
+    const t=linha.trim();
+    if(!t){y+=3;continue;}
+    checkPage(12);
 
-  // 1. TEMA GERAL
-  secao(1,'Tema Geral');
-  doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(40,40,60);
-  const tW=doc.splitTextToSize(d.tema_geral||'',cW);
-  check(tW.length*5.5+4);doc.text(tW,ml,y);y+=tW.length*5.5+6;
+    // Detecta titulo de secao (ex: "1. TEMA GERAL", "2. PONTOS DISCUTIDOS")
+    const isSec=/^\d+\.\s+[A-ZÀÁÂÃÉÊÍÓÔÕÚÇ\s]{4,}$/.test(t) || /^[A-ZÀÁÂÃÉÊÍÓÔÕÚÇ\s]{6,}$/.test(t);
+    // Detecta subtitulo (linha com titulo de ponto, negrito implícito)
+    const isSubSec=/^\d+\.\d+\.?\s/.test(t) || (t.endsWith(':') && t.length < 60 && !t.startsWith('•') && !t.startsWith('-'));
+    // Detecta bullet
+    const isBullet=/^[•\-\*]\s/.test(t) || /^\[\s*[xX ]?\s*\]/.test(t);
 
-  // 2. PONTOS DISCUTIDOS
-  if(d.pontos_discutidos?.length>0){
-    secao(2,'Pontos Discutidos');
-    d.pontos_discutidos.forEach((p,i)=>{
-      check(10);
+    if(isSec){
+      // Secao principal
+      y+=3;
+      doc.setFillColor(201,168,76);doc.rect(ml,y-5,3,7,'F');
+      doc.setDrawColor(230,230,240);doc.setLineWidth(0.3);doc.line(ml,y+2,W-mr,y+2);
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(12,12,24);
+      const w=doc.splitTextToSize(t,cW-6);
+      checkPage(w.length*5.5+6);
+      doc.text(w,ml+6,y);y+=w.length*5.5+5;
+    } else if(isSubSec){
+      // Subtitulo
       doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(15,15,40);
-      const sW=doc.splitTextToSize(`${i+1}. ${p.titulo}`,cW-4);
-      doc.text(sW,ml+2,y);y+=sW.length*5+3;
-      p.itens?.forEach(item=>bullet(item,8));
-      y+=2;
-    });
-  }
-
-  // 3. DECISÕES
-  if(d.decisoes_tomadas?.length>0){
-    secao(3,'Decisões Tomadas');
-    d.decisoes_tomadas.forEach(dec=>bullet(dec));
-    y+=3;
-  }
-
-  // 4. PRÓXIMOS PASSOS (tabela)
-  if(d.proximos_passos?.length>0){
-    secao(4,'Próximos Passos');
-    const c1=44,c2=cW-44-28,c3=26;
-    check(10);
-    // Header
-    doc.setFillColor(12,12,24);doc.rect(ml,y-5,cW,9,'F');
-    doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(201,168,76);
-    doc.text('RESPONSÁVEL',ml+2,y);
-    doc.text('AÇÃO',ml+c1+2,y);
-    doc.text('PRAZO',ml+c1+c2+2,y);
-    y+=9;
-    d.proximos_passos.forEach((p,i)=>{
-      const acaoW=doc.splitTextToSize(p.acao||'-',c2-4);
-      const respW=doc.splitTextToSize(p.responsavel||'-',c1-4);
-      const h=Math.max(acaoW.length*4.5+5,respW.length*4.5+5,9);
-      check(h+2);
-      if(i%2===0){doc.setFillColor(247,247,252);doc.rect(ml,y-5,cW,h,'F')}
-      doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(15,15,40);
-      doc.text(respW,ml+2,y);
-      doc.setFont('helvetica','normal');doc.setTextColor(40,40,60);
-      doc.text(acaoW,ml+c1+2,y);
-      doc.setFontSize(8);doc.setTextColor(100,100,130);
-      doc.text(p.prazo||'-',ml+c1+c2+2,y);
-      doc.setDrawColor(220,220,235);doc.setLineWidth(0.3);
-      doc.line(ml,y+h-5,ml+cW,y+h-5);
-      y+=h;
-    });
-    y+=4;
-  }
-
-  // 5. OBSERVAÇÕES
-  if(d.observacoes?.length>0&&d.observacoes[0]){
-    secao(5,'Observações');
-    d.observacoes.forEach(o=>{if(o)bullet(o)});
-    y+=3;
-  }
-
-  // COMPROMISSOS
-  if(d.recorrente&&d.compromissos_proxima_reuniao?.length>0){
-    check(30);y+=6;
-    doc.setFillColor(255,248,215);doc.rect(ml,y-5,cW,10,'F');
-    doc.setFillColor(201,168,76);doc.rect(ml,y-5,4,10,'F');
-    doc.setDrawColor(201,168,76);doc.setLineWidth(0.8);doc.rect(ml,y-5,cW,10);
-    doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(100,65,0);
-    doc.text('COMPROMISSOS PARA A PROXIMA REUNIAO',ml+8,y+1.5);
-    y+=14;
-    d.compromissos_proxima_reuniao.forEach(c=>{if(c)bullet(c)});
+      const w=doc.splitTextToSize(t,cW-4);
+      checkPage(w.length*5+4);
+      doc.text(w,ml+2,y);y+=w.length*5+3;
+    } else if(isBullet){
+      // Bullet
+      doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(40,40,60);
+      const txt='• '+t.replace(/^[•\-\*]\s*/,'').replace(/^\[\s*[xX ]?\s*\]\s*/,'').trim();
+      const w=doc.splitTextToSize(txt,cW-6);
+      checkPage(w.length*5+2);
+      doc.text(w,ml+4,y);y+=w.length*5+1.5;
+    } else {
+      // Texto normal
+      doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(40,40,60);
+      const w=doc.splitTextToSize(t,cW);
+      checkPage(w.length*5+2);
+      doc.text(w,ml,y);y+=w.length*5+2;
+    }
   }
 
   // RODAPÉ
@@ -716,43 +490,36 @@ async function baixarPDF(){
     doc.setPage(i);
     doc.setFillColor(12,12,24);doc.rect(0,H-12,W,12,'F');
     doc.setFont('helvetica','italic');doc.setFontSize(7.5);doc.setTextColor(140,140,170);
-    doc.text(`Ata gerada com IA · RL Construções · ${d.dataFmt} · Página ${i}/${total}`,W/2,H-4,{align:'center'});
+    doc.text('Ata gerada com IA · RL Construcoes · '+dataFmt+' · Pagina '+i+'/'+total,W/2,H-4,{align:'center'});
   }
 
-  doc.save(`Ata_${d.titulo.replace(/\s+/g,'_')}_${d.dataFmt.replace(/\//g,'-')}.pdf`);
+  doc.save('Ata_'+titulo.replace(/\s+/g,'_')+'_'+dataFmt.replace(/\//g,'-')+'.pdf');
   showStatus('PDF baixado!','ok');
 }
 
-// ── Helpers ───────────────────────────────────────────────────────
 function novaAta(){
   document.getElementById('transcricao').value='';
   document.getElementById('char-count').textContent='0 chars';
   document.getElementById('resultado').classList.remove('show');
   document.getElementById('status').className='status';
-  document.getElementById('compromissos-box').classList.remove('show');
   document.getElementById('audio-player').classList.remove('show');
   document.getElementById('timer').classList.remove('show');
   setGravStatus('Clique para iniciar a gravação','');
-  removerArquivo();
-  ataData=null;
+  removerArquivo();ataTexto='';ataMeta=null;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function adicionarHistorico(titulo,data,tipo){
-  historico.unshift({titulo,data,tipo,data_obj:ataData});
-  const el=document.getElementById('hist-list');
-  el.innerHTML=historico.map((item,i)=>`
+  historico.unshift({titulo,data,tipo,texto:ataTexto,meta:ataMeta});
+  document.getElementById('hist-list').innerHTML=historico.map((item,i)=>`
     <div class="hist-item">
-      <div class="hist-info">
-        <div class="hist-titulo">${item.titulo}</div>
-        <div class="hist-meta">${item.tipo} · ${item.data}</div>
-      </div>
+      <div class="hist-info"><div class="hist-titulo">${item.titulo}</div><div class="hist-meta">${item.tipo} · ${item.data}</div></div>
       <button class="hist-btn" onclick="redownload(${i})">⬇ PDF</button>
     </div>`).join('');
 }
 
 async function redownload(i){
-  ataData=historico[i].data_obj;
+  ataTexto=historico[i].texto;ataMeta=historico[i].meta;
   await baixarPDF();
 }
 
@@ -770,11 +537,7 @@ function showStatus(msg,tipo){
 }
 
 function carregarScript(src){
-  return new Promise((res,rej)=>{
-    const s=document.createElement('script');
-    s.src=src;s.onload=res;s.onerror=rej;
-    document.head.appendChild(s);
-  });
+  return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)});
 }
 </script>
 </body>
