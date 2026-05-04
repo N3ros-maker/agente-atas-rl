@@ -34,15 +34,12 @@ select option{background:var(--dark2)}
 .toggle-switch{width:36px;height:20px;background:var(--dark4);border-radius:10px;position:relative;flex-shrink:0}
 .toggle-switch::after{content:'';position:absolute;width:14px;height:14px;background:var(--muted);border-radius:50%;top:3px;left:3px;transition:transform 0.2s,background 0.2s}
 .toggle-row.on .toggle-switch::after{transform:translateX(16px);background:var(--gold)}
-.toggle-text{font-size:13px}
-.toggle-text small{display:block;font-size:11px;color:var(--muted)}
-#freq-wrap{display:none}
-#freq-wrap.visible{display:block}
+.toggle-text{font-size:13px}.toggle-text small{display:block;font-size:11px;color:var(--muted)}
+#freq-wrap{display:none}#freq-wrap.visible{display:block}
 .tabs{display:flex;gap:2px;background:var(--dark3);border-radius:10px;padding:4px;margin-bottom:20px}
 .tab{flex:1;padding:10px;border:none;background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:8px;transition:all 0.2s}
 .tab.active{background:var(--dark2);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
-.tab-content{display:none}
-.tab-content.active{display:block}
+.tab-content{display:none}.tab-content.active{display:block}
 .gravador{background:var(--dark3);border:2px dashed var(--dark4);border-radius:12px;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px;transition:border-color 0.3s}
 .gravador.gravando{border-color:var(--red);border-style:solid}
 .gravador.transcrevendo{border-color:var(--gold);border-style:solid}
@@ -51,45 +48,36 @@ select option{background:var(--dark2)}
 .btn-gravar.gravando{background:var(--red);animation:pulse 1.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(224,92,92,0.4)}50%{box-shadow:0 0 0 16px rgba(224,92,92,0)}}
 .gravador-status{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;text-align:center}
-.gravador-status.gravando{color:var(--red)}
-.gravador-status.ok{color:var(--green)}
+.gravador-status.gravando{color:var(--red)}.gravador-status.ok{color:var(--green)}
 .timer{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--white);letter-spacing:3px;display:none}
 .timer.show{display:block}
-.audio-player{width:100%;display:none;margin-top:8px}
-.audio-player.show{display:block}
-.ondas{display:none;gap:3px;align-items:center;height:32px}
-.ondas.show{display:flex}
+.audio-player{width:100%;display:none;margin-top:8px}.audio-player.show{display:block}
+.ondas{display:none;gap:3px;align-items:center;height:32px}.ondas.show{display:flex}
 .onda{width:4px;background:var(--red);border-radius:2px;animation:onda 0.8s ease-in-out infinite;min-height:4px}
 .onda:nth-child(1){animation-delay:0s}.onda:nth-child(2){animation-delay:0.1s}.onda:nth-child(3){animation-delay:0.2s}
 .onda:nth-child(4){animation-delay:0.3s}.onda:nth-child(5){animation-delay:0.4s}.onda:nth-child(6){animation-delay:0.3s}
 .onda:nth-child(7){animation-delay:0.2s}.onda:nth-child(8){animation-delay:0.1s}.onda:nth-child(9){animation-delay:0s}
 @keyframes onda{0%,100%{height:6px}50%{height:28px}}
-.upload-area{background:var(--dark3);border:2px dashed var(--dark4);border-radius:12px;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:border-color 0.3s;text-align:center}
+.upload-area{background:var(--dark3);border:2px dashed var(--dark4);border-radius:12px;padding:32px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;transition:border-color 0.3s;text-align:center}
 .upload-area:hover,.upload-area.dragover{border-color:var(--gold)}
-.upload-icon{font-size:36px}
-.upload-label{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
-.upload-sub{font-size:11px;color:var(--muted);opacity:0.7}
-.upload-formatos{font-size:11px;color:var(--gold);opacity:0.8}
+.upload-icon{font-size:32px}.upload-label{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+.upload-sub{font-size:11px;color:var(--muted);opacity:0.7}.upload-fmt{font-size:11px;color:var(--gold);opacity:0.8}
 .arquivo-info{display:none;background:rgba(62,207,142,0.1);border:1px solid rgba(62,207,142,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--green);align-items:center;gap:10px;margin-top:12px}
 .arquivo-info.show{display:flex}
-.btn-transcrever{width:100%;padding:13px;background:rgba(201,168,76,0.15);border:1px solid var(--gold);border-radius:8px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;margin-top:14px;transition:background 0.2s}
-.btn-transcrever:hover{background:rgba(201,168,76,0.25)}
+.btn-transcrever{width:100%;padding:13px;background:rgba(201,168,76,0.12);border:1px solid var(--gold);border-radius:8px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;margin-top:14px;transition:background 0.2s}
+.btn-transcrever:hover{background:rgba(201,168,76,0.22)}
 .ou-divisor{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:20px 0}
 .ou-divisor::before,.ou-divisor::after{content:'';flex:1;height:1px;background:var(--dark4)}
 .transcricao-wrap{position:relative}
 textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height:1.65}
 .char-badge{position:absolute;bottom:10px;right:12px;font-size:10px;color:var(--muted);background:var(--dark3);padding:2px 8px;border-radius:10px;pointer-events:none}
 .btn-gerar{width:100%;padding:18px;background:var(--gold);border:none;border-radius:10px;color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 4px 24px rgba(201,168,76,0.2)}
-.btn-gerar:hover{background:var(--gold-lt)}
-.btn-gerar:disabled{background:var(--gold-dk);cursor:not-allowed;opacity:0.7}
+.btn-gerar:hover{background:var(--gold-lt)}.btn-gerar:disabled{background:var(--gold-dk);cursor:not-allowed;opacity:0.7}
 .status{display:none;align-items:center;gap:12px;background:var(--dark2);border:1px solid var(--dark3);border-left:3px solid var(--gold);border-radius:8px;padding:14px 18px;font-size:13px}
-.status.show{display:flex}
-.status.err{border-left-color:var(--red);color:var(--red)}
-.status.ok{border-left-color:var(--green);color:var(--green)}
+.status.show{display:flex}.status.err{border-left-color:var(--red);color:var(--red)}.status.ok{border-left-color:var(--green);color:var(--green)}
 .spin{width:18px;height:18px;border:2px solid var(--dark4);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-#resultado{display:none}
-#resultado.show{display:block}
+#resultado{display:none}#resultado.show{display:block}
 .preview-box{background:#faf9f6;color:#1a1a2e;border-radius:8px;padding:24px;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:440px;overflow-y:auto;font-family:'Barlow',sans-serif}
 .btn-row{display:flex;gap:10px;margin-top:16px}
 .btn-sec{flex:1;padding:13px;background:transparent;border:1px solid var(--dark4);border-radius:8px;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
@@ -98,14 +86,11 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
 .btn-pdf:hover{background:var(--gold-lt)}
 .hist-list{display:flex;flex-direction:column;gap:8px}
 .hist-item{display:flex;align-items:center;justify-content:space-between;background:var(--dark3);border-radius:8px;padding:12px 16px;gap:12px}
-.hist-info{flex:1;min-width:0}
-.hist-titulo{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-info{flex:1;min-width:0}.hist-titulo{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hist-meta{font-size:11px;color:var(--muted);margin-top:2px}
 .hist-btn{background:none;border:1px solid var(--dark4);border-radius:6px;color:var(--gold);font-size:11px;padding:5px 12px;cursor:pointer;font-family:'Barlow Condensed',sans-serif}
 .empty{color:var(--muted);font-size:13px;text-align:center;padding:24px;font-style:italic}
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:var(--dark2)}
-::-webkit-scrollbar-thumb{background:var(--dark4);border-radius:3px}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--dark2)}::-webkit-scrollbar-thumb{background:var(--dark4);border-radius:3px}
 </style>
 </head>
 <body>
@@ -114,11 +99,10 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
     <div class="logo-box">RL</div>
     <div class="logo-text"><h1>Agente de Atas</h1><p>RL Construções · Campina Grande - PB</p></div>
   </div>
-  <div class="badge">VERSÃO 6.0</div>
+  <div class="badge">VERSÃO FINAL</div>
 </header>
 <main>
 
-  <!-- INFORMAÇÕES -->
   <div class="card">
     <div class="card-header"><div class="card-icon">📋</div><div><div class="card-title">Informações da Reunião</div><div class="card-sub">Preencha antes de gerar a ata</div></div></div>
     <div class="grid-2">
@@ -152,7 +136,6 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
     </div>
   </div>
 
-  <!-- ÁUDIO -->
   <div class="card">
     <div class="card-header"><div class="card-icon">🎙️</div><div><div class="card-title">Áudio da Reunião</div><div class="card-sub">Grave ao vivo, envie um arquivo ou cole a transcrição</div></div></div>
     <div class="tabs">
@@ -161,7 +144,6 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
       <button class="tab" onclick="mudarTab('texto')">📝 Transcrição</button>
     </div>
 
-    <!-- Gravar -->
     <div class="tab-content active" id="tab-gravar">
       <div class="gravador" id="gravador">
         <button class="btn-gravar" id="btn-gravar" onclick="toggleGravacao()">🎙️</button>
@@ -172,23 +154,18 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
       </div>
     </div>
 
-    <!-- Upload -->
     <div class="tab-content" id="tab-upload">
       <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
         <div class="upload-icon">📂</div>
         <div class="upload-label">Clique ou arraste o arquivo de áudio</div>
         <div class="upload-sub">Gravado pelo Samsung Voice Recorder, celular, etc.</div>
-        <div class="upload-formatos">M4A · MP3 · WAV · OGG · WEBM · MP4</div>
+        <div class="upload-fmt">M4A · MP3 · WAV · OGG · WEBM · MP4</div>
       </div>
       <input type="file" id="file-input" accept="audio/*,.m4a,.mp3,.wav,.ogg,.webm,.mp4" style="display:none" onchange="arquivoSelecionado(this)">
-      <div class="arquivo-info" id="arquivo-info">
-        <span>✅</span><span id="nome-arquivo"></span>
-        <button onclick="removerArquivo()" style="margin-left:auto;background:none;border:none;color:var(--red);cursor:pointer;font-size:18px">✕</button>
-      </div>
+      <div class="arquivo-info" id="arquivo-info"><span>✅</span><span id="nome-arquivo"></span><button onclick="removerArquivo()" style="margin-left:auto;background:none;border:none;color:var(--red);cursor:pointer;font-size:18px">✕</button></div>
       <button class="btn-transcrever" onclick="transcreverUpload()">🔄 Transcrever Arquivo</button>
     </div>
 
-    <!-- Texto -->
     <div class="tab-content" id="tab-texto">
       <div class="transcricao-wrap">
         <textarea id="transcricao" placeholder="Cole aqui a transcrição da reunião..."></textarea>
@@ -198,10 +175,8 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
   </div>
 
   <button class="btn-gerar" id="btn-gerar" onclick="gerarAta()">⚡ GERAR ATA EM PDF</button>
-
   <div class="status" id="status"><div class="spin" id="spin"></div><span id="status-txt">Processando...</span></div>
 
-  <!-- RESULTADO -->
   <div id="resultado" class="card">
     <div class="card-header"><div class="card-icon">✅</div><div><div class="card-title">Ata Gerada</div><div class="card-sub" id="resultado-sub"></div></div></div>
     <div class="preview-box" id="preview-box"></div>
@@ -211,9 +186,8 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
     </div>
   </div>
 
-  <!-- HISTÓRICO -->
   <div class="card">
-    <div class="card-header"><div class="card-icon">🗂️</div><div><div class="card-title">Histórico desta Sessão</div><div class="card-sub">Atas geradas nesta sessão</div></div></div>
+    <div class="card-header"><div class="card-icon">🗂️</div><div><div class="card-title">Histórico desta Sessão</div><div class="card-sub">Atas geradas</div></div></div>
     <div class="hist-list" id="hist-list"><div class="empty">Nenhuma ata gerada ainda.</div></div>
   </div>
 
@@ -236,13 +210,11 @@ function mudarTab(id){
 
 function toggleRecorrente(){
   const cb=document.getElementById('recorrente');
-  const row=document.getElementById('toggle-row');
   cb.checked=!cb.checked;
-  row.classList.toggle('on',cb.checked);
+  document.getElementById('toggle-row').classList.toggle('on',cb.checked);
   document.getElementById('freq-wrap').classList.toggle('visible',cb.checked);
 }
 
-// Upload
 function arquivoSelecionado(input){
   if(!input.files[0])return;
   uploadBlob=input.files[0];
@@ -274,7 +246,6 @@ async function transcreverUpload(){
   }catch(err){showStatus('Erro: '+err.message,'err')}
 }
 
-// Gravação
 async function toggleGravacao(){if(!gravando)await iniciarGravacao();else pararGravacao()}
 async function iniciarGravacao(){
   try{
@@ -332,7 +303,6 @@ function setGravStatus(msg,tipo){
   el.textContent=msg;el.className='gravador-status'+(tipo?' '+tipo:'');
 }
 
-// Gerar Ata
 async function gerarAta(){
   const titulo=document.getElementById('titulo').value.trim();
   const dataVal=document.getElementById('data').value;
@@ -354,11 +324,9 @@ async function gerarAta(){
   setLoading(true);
   showStatus('Gerando ata com IA...','loading');
 
-  const recInfo=recorrente?`\nEsta e uma reuniao RECORRENTE com frequencia: ${frequencia||'nao informada'}. Inclua ao final uma secao chamada "COMPROMISSOS PARA A PROXIMA REUNIAO" destacando tudo que precisa ser acompanhado.`:'';
+  const recInfo=recorrente?`\nEsta e uma reuniao RECORRENTE com frequencia: ${frequencia||'nao informada'}. Inclua ao final uma secao "COMPROMISSOS PARA A PROXIMA REUNIAO" com tudo que precisa ser acompanhado.`:'';
 
-  const prompt=`Voce e um assistente especializado em gerar atas profissionais para a RL Construcoes, empresa de incorporacao e construcao civil de Campina Grande - PB.
-
-Analise a transcricao abaixo e gere uma ata COMPLETA, DETALHADA e BEM ORGANIZADA.
+  const prompt=`Voce e um assistente especializado em gerar atas profissionais COMPACTAS para a RL Construcoes, empresa de construcao civil de Campina Grande - PB.
 
 INFORMACOES DA REUNIAO:
 - Titulo: ${titulo}
@@ -369,24 +337,21 @@ INFORMACOES DA REUNIAO:
 - Participantes: ${participantes}${recInfo}
 
 INSTRUCOES:
-1. Organize nas secoes: 1. TEMA GERAL, 2. PONTOS DISCUTIDOS, 3. DECISOES TOMADAS, 4. PROXIMOS PASSOS, 5. OBSERVACOES
-2. Use linguagem formal e profissional
-3. Capture TODOS os pontos importantes
-4. Destaque numeros, percentuais e prazos
-5. Identifique responsaveis por tarefas
-6. Preserve termos tecnicos de construcao civil
-7. Corrija erros de transcricao automatica
-8. Ignore marcas d agua de ferramentas
-9. Use texto limpo sem markdown especial
+1. Gere uma ata OBJETIVA em no maximo 2 paginas A4
+2. Organize nas secoes numeradas: 1. TEMA GERAL, 2. PONTOS DISCUTIDOS, 3. DECISOES TOMADAS, 4. PROXIMOS PASSOS, 5. OBSERVACOES (se houver)
+3. Seja CONCISO - bullets curtos de 1 linha, sem repeticoes
+4. Destaque numeros, percentuais e prazos importantes
+5. Em PROXIMOS PASSOS, sempre liste no formato: [Responsavel] - [Acao] - [Prazo]
+6. Corrija erros de transcricao automatica
+7. Ignore marcas dagua de ferramentas
+8. Texto limpo SEM markdown (sem **, ##, ---, etc)
+9. Nao repita informacoes
 
 TRANSCRICAO:
 ${transcricao}`;
 
   try{
-    const res=await fetch('/api/gerar-ata',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({prompt})
-    });
+    const res=await fetch('/api/gerar-ata',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
     const json=await res.json();
     if(!res.ok)throw new Error(json.error||'Erro na API');
     if(json.error)throw new Error(json.error);
@@ -396,7 +361,7 @@ ${transcricao}`;
     document.getElementById('resultado').classList.add('show');
     document.getElementById('resultado-sub').textContent=`${tipo} · ${dataFmt}`;
     adicionarHistorico(titulo,dataFmt,tipo);
-    showStatus('Ata gerada com sucesso!','ok');
+    showStatus('Ata gerada! Revise e baixe o PDF.','ok');
     setLoading(false);
     document.getElementById('resultado').scrollIntoView({behavior:'smooth'});
   }catch(err){
@@ -405,7 +370,7 @@ ${transcricao}`;
   }
 }
 
-// PDF
+// ── PDF PROFISSIONAL ──────────────────────────────────────────────────────────
 async function baixarPDF(){
   if(!ataTexto||!ataMeta)return;
   if(!window.jspdf)await carregarScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
@@ -414,98 +379,169 @@ async function baixarPDF(){
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const{titulo,tipo,dataFmt,local,facilitador,participantes,recorrente,frequencia}=ataMeta;
   const W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight();
-  const ml=18,mr=18,cW=W-ml-mr;
+  const ml=18,cW=W-36;
   let y=0;
 
-  const checkPage=(n)=>{if(y+n>H-20){doc.addPage();y=18}};
+  // Cores
+  const DARK=[12,12,24], GOLD=[201,168,76], GOLD_LT=[240,208,128],
+        GRAY=[248,248,252], BLUE_BG=[240,240,248], TXT=[30,30,60],
+        MID=[100,100,130], LIGHT=[230,230,240];
 
-  // CABEÇALHO
-  doc.setFillColor(12,12,24);doc.rect(0,0,W,44,'F');
-  doc.setFillColor(201,168,76);doc.rect(0,44,W,7,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(22);doc.setTextColor(201,168,76);
-  doc.text('ATA DE REUNIAO',W/2,17,{align:'center'});
-  doc.setFontSize(11);doc.setTextColor(240,208,128);
-  doc.text(titulo.toUpperCase(),W/2,29,{align:'center'});
-  doc.setFontSize(8);doc.setTextColor(160,160,180);
-  doc.text(tipo.toUpperCase()+(recorrente&&frequencia?' · '+frequencia.toUpperCase():''),W/2,38,{align:'center'});
-  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(12,12,24);
-  doc.text('RL CONSTRUCOES · CAMPINA GRANDE - PB · '+dataFmt,W/2,48,{align:'center'});
+  const newPage=()=>{
+    // rodapé na página atual
+    doc.setFillColor(...DARK);doc.rect(0,H-10,W,10,'F');
+    doc.setFont('helvetica','italic');doc.setFontSize(7);doc.setTextColor(...MID);
+    doc.text(`Ata gerada com IA · RL Construcoes · ${dataFmt}`,W/2,H-3.5,{align:'center'});
+    doc.addPage();y=18;
+  };
+  const chk=(n)=>{if(y+n>H-14)newPage()};
 
-  y=62;
-  doc.setFillColor(240,240,248);doc.rect(ml,y-5,cW,20,'F');
-  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(80,80,110);
-  doc.text('Local: '+local+'   |   Facilitador: '+facilitador,ml+3,y);y+=6;
-  doc.text('Participantes: '+participantes,ml+3,y);y+=10;
-  doc.setDrawColor(201,168,76);doc.setLineWidth(0.5);doc.line(ml,y,W-mr,y);y+=8;
+  const wrapTxt=(txt,maxW,fs,font)=>{
+    doc.setFont('helvetica',font||'normal');doc.setFontSize(fs||9.5);
+    return doc.splitTextToSize(String(txt||''),maxW);
+  };
 
-  // CONTEÚDO — processa linha a linha
+  // ── CABEÇALHO ──
+  doc.setFillColor(...DARK);doc.rect(0,0,W,42,'F');
+  doc.setFillColor(...GOLD);doc.rect(0,42,W,7,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(22);doc.setTextColor(...GOLD);
+  doc.text('ATA DE REUNIAO',W/2,16,{align:'center'});
+  doc.setFontSize(11);doc.setTextColor(...GOLD_LT);
+  doc.text(titulo.toUpperCase(),W/2,28,{align:'center'});
+  doc.setFontSize(8);doc.setTextColor(160,160,190);
+  doc.text(tipo.toUpperCase()+(recorrente&&frequencia?' · '+frequencia.toUpperCase():''),W/2,37,{align:'center'});
+  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...DARK);
+  doc.text('RL CONSTRUCOES · CAMPINA GRANDE - PB · '+dataFmt,W/2,46.5,{align:'center'});
+
+  y=58;
+  // Metadados
+  doc.setFillColor(...BLUE_BG);doc.rect(ml,y-5,cW,20,'F');
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...MID);
+  doc.text('Local: '+local+'   |   Facilitador: '+facilitador,ml+4,y);y+=6;
+  doc.text('Participantes: '+participantes,ml+4,y);y+=10;
+  doc.setDrawColor(...GOLD);doc.setLineWidth(0.6);doc.line(ml,y,W-ml,y);y+=8;
+
+  // ── PARSER DE LINHAS ──
   const linhas=ataTexto.split('\n');
+  let emSecao=false;
 
+  // Detectores
+  const isSec=(t)=>/^\d+\.\s+[A-ZÀÁÉÍÓÚÃÕ\s]{3,}/.test(t);
+  const isSubSec=(t)=>!isSec(t)&&!t.startsWith('•')&&!t.startsWith('-')&&t.length<70&&t.length>4&&/[A-ZÀÁÉÍÓÚ]/.test(t[0])&&(t.includes(':')&&t.endsWith(':')||/^[A-Z][a-z]/.test(t)&&t.split(' ').length<=6);
+  const isBullet=(t)=>/^[•\-\*]\s/.test(t)||/^\[\s*[xX ]?\s*\]/.test(t);
+  const isPassoTabela=(t)=>/^[\[\(]?[A-ZÀÁÉÍÓÚa-záéíóú].{2,}\]?\s*[-–|]\s*.{5,}/.test(t);
+
+  // Coleta próximos passos para tabela
+  let passosLines=[];
+  let emPassos=false;
+  let ataProcessada=[];
   for(const linha of linhas){
     const t=linha.trim();
-    if(!t){y+=3;continue;}
-    checkPage(12);
+    if(!t){ataProcessada.push({type:'space'});continue}
+    if(isSec(t)&&t.includes('PROXIMOS PASSOS')){emPassos=true;ataProcessada.push({type:'sec',text:t});continue}
+    if(isSec(t)&&emPassos){emPassos=false}
+    if(emPassos&&(isBullet(t)||isPassoTabela(t))){
+      passosLines.push(t.replace(/^[•\-\*]\s*/,'').trim());
+      continue;
+    }
+    if(emPassos&&t)continue;
+    ataProcessada.push({type:'line',text:t});
+  }
 
-    // Detecta titulo de secao (ex: "1. TEMA GERAL", "2. PONTOS DISCUTIDOS")
-    const isSec=/^\d+\.\s+[A-ZÀÁÂÃÉÊÍÓÔÕÚÇ\s]{4,}$/.test(t) || /^[A-ZÀÁÂÃÉÊÍÓÔÕÚÇ\s]{6,}$/.test(t);
-    // Detecta subtitulo (linha com titulo de ponto, negrito implícito)
-    const isSubSec=/^\d+\.\d+\.?\s/.test(t) || (t.endsWith(':') && t.length < 60 && !t.startsWith('•') && !t.startsWith('-'));
-    // Detecta bullet
-    const isBullet=/^[•\-\*]\s/.test(t) || /^\[\s*[xX ]?\s*\]/.test(t);
+  // Renderiza
+  for(const item of ataProcessada){
+    if(item.type==='space'){y+=3;continue}
+    const t=item.text;
 
-    if(isSec){
-      // Secao principal
-      y+=3;
-      doc.setFillColor(201,168,76);doc.rect(ml,y-5,3,7,'F');
-      doc.setDrawColor(230,230,240);doc.setLineWidth(0.3);doc.line(ml,y+2,W-mr,y+2);
-      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(12,12,24);
-      const w=doc.splitTextToSize(t,cW-6);
-      checkPage(w.length*5.5+6);
-      doc.text(w,ml+6,y);y+=w.length*5.5+5;
-    } else if(isSubSec){
-      // Subtitulo
-      doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(15,15,40);
-      const w=doc.splitTextToSize(t,cW-4);
-      checkPage(w.length*5+4);
+    if(item.type==='sec'){
+      // Seção principal
+      chk(16);y+=3;
+      doc.setFillColor(...GOLD);doc.rect(ml,y-5,3,8,'F');
+      doc.setDrawColor(...LIGHT);doc.setLineWidth(0.3);doc.line(ml,y+3,W-ml,y+3);
+      doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor(...GOLD);
+      doc.text(t,ml+6,y);y+=11;
+
+      // Se for a seção de próximos passos, renderiza tabela depois
+      if(t.includes('PROXIMOS PASSOS')&&passosLines.length>0){
+        chk(12+(passosLines.length*8));
+        // Header
+        const c1=40,c2=cW-40-28,c3=28;
+        doc.setFillColor(...DARK);doc.rect(ml,y-5,cW,9,'F');
+        doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...GOLD);
+        doc.text('RESPONSAVEL',ml+2,y);
+        doc.text('ACAO',ml+c1+2,y);
+        doc.text('PRAZO',ml+c1+c2+2,y);
+        y+=9;
+        passosLines.forEach((p,i)=>{
+          // Tenta parsear Responsavel - Acao - Prazo
+          let resp='-',acao=p,prazo='-';
+          const partes=p.split(/\s*[-–|]\s*/);
+          if(partes.length>=3){resp=partes[0].trim();acao=partes.slice(1,-1).join(' - ').trim();prazo=partes[partes.length-1].trim()}
+          else if(partes.length===2){resp=partes[0].trim();acao=partes[1].trim()}
+          const acaoW=doc.splitTextToSize(acao,c2-4);
+          const h=Math.max(acaoW.length*4.5+5,9);
+          chk(h+2);
+          if(i%2===0){doc.setFillColor(...GRAY);doc.rect(ml,y-5,cW,h,'F')}
+          doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(...TXT);
+          doc.text(doc.splitTextToSize(resp,c1-4),ml+2,y);
+          doc.setFont('helvetica','normal');doc.text(acaoW,ml+c1+2,y);
+          doc.setFontSize(8);doc.setTextColor(...MID);
+          doc.text(prazo,ml+c1+c2+2,y);
+          doc.setDrawColor(...LIGHT);doc.setLineWidth(0.3);
+          doc.line(ml,y+h-5,ml+cW,y+h-5);
+          y+=h;
+        });
+        y+=4;
+      }
+      continue;
+    }
+
+    if(isSec(t)){
+      chk(16);y+=3;
+      doc.setFillColor(...GOLD);doc.rect(ml,y-5,3,8,'F');
+      doc.setDrawColor(...LIGHT);doc.setLineWidth(0.3);doc.line(ml,y+3,W-ml,y+3);
+      doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor(...GOLD);
+      doc.text(t,ml+6,y);y+=11;
+    } else if(isSubSec(t)){
+      chk(10);y+=2;
+      doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(...TXT);
+      const w=doc.splitTextToSize(t,cW-4);chk(w.length*5+4);
       doc.text(w,ml+2,y);y+=w.length*5+3;
-    } else if(isBullet){
-      // Bullet
-      doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(40,40,60);
-      const txt='• '+t.replace(/^[•\-\*]\s*/,'').replace(/^\[\s*[xX ]?\s*\]\s*/,'').trim();
-      const w=doc.splitTextToSize(txt,cW-6);
-      checkPage(w.length*5+2);
-      doc.text(w,ml+4,y);y+=w.length*5+1.5;
+    } else if(isBullet(t)){
+      const txt=t.replace(/^[•\-\*]\s*/,'').trim();
+      doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(...TXT);
+      const w=doc.splitTextToSize('• '+txt,cW-6);chk(w.length*5+2);
+      doc.text(w,ml+4,y);y+=w.length*5+2;
     } else {
-      // Texto normal
-      doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(40,40,60);
-      const w=doc.splitTextToSize(t,cW);
-      checkPage(w.length*5+2);
+      doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(...TXT);
+      const w=doc.splitTextToSize(t,cW);chk(w.length*5+2);
       doc.text(w,ml,y);y+=w.length*5+2;
     }
   }
 
-  // RODAPÉ
-  const total=doc.internal.getNumberOfPages();
-  for(let i=1;i<=total;i++){
-    doc.setPage(i);
-    doc.setFillColor(12,12,24);doc.rect(0,H-12,W,12,'F');
-    doc.setFont('helvetica','italic');doc.setFontSize(7.5);doc.setTextColor(140,140,170);
-    doc.text('Ata gerada com IA · RL Construcoes · '+dataFmt+' · Pagina '+i+'/'+total,W/2,H-4,{align:'center'});
+  // Compromissos (se recorrente)
+  if(recorrente){
+    const compLinhas=linhas.filter(l=>{
+      const t=l.trim();
+      return t&&ataProcessada.find(a=>a.text===t)===undefined&&!isSec(t);
+    });
+    // Seção já aparece no texto normal
   }
+
+  // Rodapé última página
+  doc.setFillColor(...DARK);doc.rect(0,H-10,W,10,'F');
+  doc.setFont('helvetica','italic');doc.setFontSize(7);doc.setTextColor(...MID);
+  doc.text(`Ata gerada com IA · RL Construcoes · ${dataFmt}`,W/2,H-3.5,{align:'center'});
 
   doc.save('Ata_'+titulo.replace(/\s+/g,'_')+'_'+dataFmt.replace(/\//g,'-')+'.pdf');
   showStatus('PDF baixado!','ok');
 }
 
 function novaAta(){
-  document.getElementById('transcricao').value='';
-  document.getElementById('char-count').textContent='0 chars';
-  document.getElementById('resultado').classList.remove('show');
-  document.getElementById('status').className='status';
-  document.getElementById('audio-player').classList.remove('show');
-  document.getElementById('timer').classList.remove('show');
-  setGravStatus('Clique para iniciar a gravação','');
-  removerArquivo();ataTexto='';ataMeta=null;
+  document.getElementById('transcricao').value='';document.getElementById('char-count').textContent='0 chars';
+  document.getElementById('resultado').classList.remove('show');document.getElementById('status').className='status';
+  document.getElementById('audio-player').classList.remove('show');document.getElementById('timer').classList.remove('show');
+  setGravStatus('Clique para iniciar a gravação','');removerArquivo();ataTexto='';ataMeta=null;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -518,27 +554,19 @@ function adicionarHistorico(titulo,data,tipo){
     </div>`).join('');
 }
 
-async function redownload(i){
-  ataTexto=historico[i].texto;ataMeta=historico[i].meta;
-  await baixarPDF();
-}
+async function redownload(i){ataTexto=historico[i].texto;ataMeta=historico[i].meta;await baixarPDF()}
 
 function setLoading(on){
-  const btn=document.getElementById('btn-gerar');
-  btn.disabled=on;
+  const btn=document.getElementById('btn-gerar');btn.disabled=on;
   btn.innerHTML=on?'<div style="width:20px;height:20px;border:3px solid rgba(0,0,0,0.2);border-top-color:#1a1a2e;border-radius:50%;animation:spin 0.7s linear infinite"></div> PROCESSANDO...':'⚡ GERAR ATA EM PDF';
 }
-
 function showStatus(msg,tipo){
   const el=document.getElementById('status');
   el.className='status show'+(tipo==='err'?' err':tipo==='ok'?' ok':'');
   document.getElementById('status-txt').textContent=msg;
   document.getElementById('spin').style.display=tipo==='loading'?'block':'none';
 }
-
-function carregarScript(src){
-  return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)});
-}
+function carregarScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
 </script>
 </body>
 </html>
