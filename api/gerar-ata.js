@@ -7,7 +7,6 @@ export default async function handler(req, res) {
 
   try {
     const { prompt } = req.body;
-
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -21,17 +20,11 @@ export default async function handler(req, res) {
         messages: [{ role: 'user', content: prompt }],
       }),
     });
-
     const data = await response.json();
     if (!response.ok) return res.status(response.status).json({ error: data.error?.message || 'Erro na API' });
-
     let texto = data.content?.[0]?.text || '';
-    
-    // Remove markdown se escapar
     texto = texto.replace(/\*\*/g, '').replace(/#{1,6}\s/g, '').replace(/---/g, '');
-
     return res.status(200).json({ texto });
-
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
