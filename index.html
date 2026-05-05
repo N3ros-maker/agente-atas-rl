@@ -260,25 +260,73 @@ function renderListaArquivos(){
   btn.style.display='block';
 }
 
+const WHISPER_CHUNK = 24 * 1024 * 1024; // 24MB por chunk
+
+async function getOpenAIKey(){
+  const res = await fetch('/api/openai-key');
+  const json = await res.json();
+  return json.key;
+}
+
+async function transcreverBlob(blob, nome, apiKey){
+  const fd = new FormData();
+  fd.append('file', blob, nome);
+  fd.append('model', 'whisper-1');
+  fd.append('language', 'pt');
+  fd.append('response_format', 'text');
+  const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + apiKey },
+    body: fd
+  });
+  if(!res.ok){
+    const err = await res.text();
+    throw new Error('Whisper: ' + err);
+  }
+  return await res.text();
+}
+
 async function transcreverUpload(){
   if(!uploadBlobs.length)return showStatus('Selecione pelo menos um arquivo de áudio.','err');
   
-  const total=uploadBlobs.length;
-  showStatus(`Transcrevendo ${total} arquivo(s) com Whisper... Aguarde.`,'loading');
-  
   try{
-    const fd=new FormData();
+    showStatus('Obtendo credenciais...','loading');
+    const apiKey = await getOpenAIKey();
+    if(!apiKey) throw new Error('Chave OpenAI não configurada no servidor');
+
+    const transcricoes = [];
+    let arqAtual = 0;
+
     for(const blob of uploadBlobs){
-      fd.append('audio',blob,blob.name);
+      arqAtual++;
+      const totalArq = uploadBlobs.length;
+
+      if(blob.size <= WHISPER_CHUNK){
+        // Arquivo pequeno — envia direto
+        showStatus(`Transcrevendo arquivo ${arqAtual}/${totalArq}: ${blob.name}...`, 'loading');
+        const texto = await transcreverBlob(blob, blob.name, apiKey);
+        transcricoes.push(texto);
+      } else {
+        // Arquivo grande — divide em chunks
+        const totalChunks = Math.ceil(blob.size / WHISPER_CHUNK);
+        for(let i = 0; i < totalChunks; i++){
+          showStatus(`Transcrevendo arquivo ${arqAtual}/${totalArq} — parte ${i+1}/${totalChunks}...`, 'loading');
+          const inicio = i * WHISPER_CHUNK;
+          const fim = Math.min(inicio + WHISPER_CHUNK, blob.size);
+          const chunk = blob.slice(inicio, fim, blob.type || 'audio/mp4');
+          const texto = await transcreverBlob(chunk, `parte_${i+1}.m4a`, apiKey);
+          transcricoes.push(texto);
+        }
+      }
     }
-    const res=await fetch('/api/transcrever',{method:'POST',body:fd});
-    const json=await res.json();
-    if(!res.ok)throw new Error(json.error||'Erro');
+
+    const transcricaoFinal = transcricoes.join('\n\n');
     mudarTab('texto');
-    document.getElementById('transcricao').value=json.transcricao;
-    document.getElementById('char-count').textContent=json.transcricao.length.toLocaleString('pt-BR')+' chars';
-    showStatus('Transcrição concluída! Revise e clique em Gerar Ata.','ok');
-  }catch(err){showStatus('Erro: '+err.message,'err')}
+    document.getElementById('transcricao').value = transcricaoFinal;
+    document.getElementById('char-count').textContent = transcricaoFinal.length.toLocaleString('pt-BR') + ' chars';
+    showStatus('Transcrição concluída! Revise e clique em Gerar Ata.', 'ok');
+
+  }catch(err){showStatus('Erro: ' + err.message, 'err')}
 }
 
 async function toggleGravacao(){if(!gravando)await iniciarGravacao();else pararGravacao()}
