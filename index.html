@@ -260,8 +260,6 @@ function renderListaArquivos(){
   btn.style.display='block';
 }
 
-const WHISPER_CHUNK = 24 * 1024 * 1024; // 24MB por chunk
-
 async function getOpenAIKey(){
   const res = await fetch('/api/openai-key');
   const json = await res.json();
@@ -269,11 +267,17 @@ async function getOpenAIKey(){
 }
 
 async function transcreverBlob(blob, nome, apiKey){
+  // Garante que o nome tem extensão correta
+  const ext = nome.split('.').pop().toLowerCase();
+  const extsValidas = ['flac','m4a','mp3','mp4','mpeg','mpga','oga','ogg','wav','webm'];
+  const nomeUsar = extsValidas.includes(ext) ? nome : nome + '.m4a';
+  
   const fd = new FormData();
-  fd.append('file', blob, nome);
+  fd.append('file', blob, nomeUsar);
   fd.append('model', 'whisper-1');
   fd.append('language', 'pt');
   fd.append('response_format', 'text');
+  
   const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + apiKey },
@@ -299,26 +303,21 @@ async function transcreverUpload(){
 
     for(const blob of uploadBlobs){
       arqAtual++;
-      const totalArq = uploadBlobs.length;
-
-      if(blob.size <= WHISPER_CHUNK){
-        // Arquivo pequeno — envia direto
-        showStatus(`Transcrevendo arquivo ${arqAtual}/${totalArq}: ${blob.name}...`, 'loading');
-        const texto = await transcreverBlob(blob, blob.name, apiKey);
-        transcricoes.push(texto);
-      } else {
-        // Arquivo grande — divide em chunks
-        const totalChunks = Math.ceil(blob.size / WHISPER_CHUNK);
-        for(let i = 0; i < totalChunks; i++){
-          showStatus(`Transcrevendo arquivo ${arqAtual}/${totalArq} — parte ${i+1}/${totalChunks}...`, 'loading');
-          const inicio = i * WHISPER_CHUNK;
-          const fim = Math.min(inicio + WHISPER_CHUNK, blob.size);
-          const chunk = blob.slice(inicio, fim, blob.type || 'audio/mp4');
-          const texto = await transcreverBlob(chunk, `parte_${i+1}.m4a`, apiKey);
-          transcricoes.push(texto);
-        }
+      const total = uploadBlobs.length;
+      showStatus(`Transcrevendo arquivo ${arqAtual}/${total}: ${blob.name}...`, 'loading');
+      
+      // Envia o arquivo inteiro — Whisper suporta até 25MB
+      // Para arquivos maiores, avisa o usuário
+      if(blob.size > 25 * 1024 * 1024){
+        showStatus(`Arquivo ${blob.name} é maior que 25MB. Divida em partes menores no celular.`, 'err');
+        continue;
       }
+      
+      const texto = await transcreverBlob(blob, blob.name, apiKey);
+      transcricoes.push(texto);
     }
+
+    if(!transcricoes.length) return;
 
     const transcricaoFinal = transcricoes.join('\n\n');
     mudarTab('texto');
