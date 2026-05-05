@@ -266,46 +266,52 @@ async function getOpenAIKey(){
   return json.key;
 }
 
-// Comprime áudio para webm mono 16kHz — ideal para fala, ~1MB/min
-async function comprimirAudio(blob){
-  const arrayBuffer = await blob.arrayBuffer();
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-  const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+// Carrega FFmpeg wasm
+let ffmpegLoaded = false;
+let ffmpegInstance = null;
 
-  // Converte para mono
-  const offlineCtx = new OfflineAudioContext(1, audioBuffer.duration * 16000, 16000);
-  const source = offlineCtx.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(offlineCtx.destination);
-  source.start();
-  const rendered = await offlineCtx.startRendering();
-  await audioCtx.close();
+async function carregarFFmpeg(){
+  if(ffmpegLoaded) return ffmpegInstance;
+  showStatus('Carregando conversor de áudio...', 'loading');
+  await carregarScript('https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js');
+  const { createFFmpeg, fetchFile } = FFmpeg;
+  ffmpegInstance = createFFmpeg({ log: false });
+  await ffmpegInstance.load();
+  ffmpegLoaded = true;
+  return ffmpegInstance;
+}
 
-  // Grava como webm usando MediaRecorder
-  return new Promise((resolve, reject) => {
-    const dest = new AudioContext({ sampleRate: 16000 });
-    const streamDest = dest.createMediaStreamDestination();
-    const bufSrc = dest.createBufferSource();
-    bufSrc.buffer = rendered;
-    bufSrc.connect(streamDest);
+// Converte qualquer áudio para mp3 mono 16kHz usando FFmpeg
+// Resultado: ~1MB por minuto de áudio — 2h de reunião fica ~120MB → ~30MB
+async function converterParaMP3(blob, nome){
+  const ff = await carregarFFmpeg();
+  const { fetchFile } = FFmpeg;
+  const ext = nome.split('.').pop().toLowerCase();
+  const inputName = 'input.' + ext;
+  const outputName = 'output.mp3';
 
-    const chunks = [];
-    const mr = new MediaRecorder(streamDest.stream, { mimeType: 'audio/webm;codecs=opus', audioBitsPerSecond: 16000 });
-    mr.ondataavailable = e => { if(e.data.size > 0) chunks.push(e.data) };
-    mr.onstop = () => {
-      dest.close();
-      resolve(new Blob(chunks, { type: 'audio/webm' }));
-    };
-    mr.onerror = reject;
-    mr.start();
-    bufSrc.start();
-    bufSrc.onended = () => mr.stop();
-  });
+  ff.FS('writeFile', inputName, await fetchFile(blob));
+  
+  // Converte para mp3 mono 32kbps — excelente para fala, péssimo para música
+  await ff.run(
+    '-i', inputName,
+    '-ac', '1',           // mono
+    '-ar', '16000',       // 16kHz
+    '-b:a', '32k',        // 32kbps
+    '-f', 'mp3',
+    outputName
+  );
+
+  const data = ff.FS('readFile', outputName);
+  ff.FS('unlink', inputName);
+  ff.FS('unlink', outputName);
+  
+  return new Blob([data.buffer], { type: 'audio/mpeg' });
 }
 
 async function transcreverBlob(blob, nome, apiKey){
   const fd = new FormData();
-  fd.append('file', blob, nome.endsWith('.webm') ? nome : nome.replace(/\.[^.]+$/, '') + '.webm');
+  fd.append('file', blob, nome);
   fd.append('model', 'whisper-1');
   fd.append('language', 'pt');
   fd.append('response_format', 'text');
@@ -318,7 +324,53 @@ async function transcreverBlob(blob, nome, apiKey){
   return await res.text();
 }
 
-const CHUNK_BYTES = 23 * 1024 * 1024; // 23MB por chunk após compressão
+// Divide MP3 em segmentos de tempo usando FFmpeg
+async function dividirMP3(blob, nomeBase, duracaoSegSec){
+  const ff = await carregarFFmpeg();
+  const { fetchFile } = FFmpeg;
+  
+  ff.FS('writeFile', 'full.mp3', await fetchFile(blob));
+  
+  // Descobre duração
+  let duracao = 0;
+  ff.setLogger(({ message }) => {
+    const m = message.match(/Duration: (\d+):(\d+):([\d.]+)/);
+    if(m) duracao = parseInt(m[1])*3600 + parseInt(m[2])*60 + parseFloat(m[3]);
+  });
+  await ff.run('-i', 'full.mp3', '-f', 'null', '-');
+  ff.setLogger(() => {});
+  
+  if(!duracao) duracao = (blob.size / (32000/8)); // estimativa se não conseguir
+  
+  const partes = [];
+  const totalPartes = Math.ceil(duracao / duracaoSegSec);
+  
+  for(let i = 0; i < totalPartes; i++){
+    const inicio = i * duracaoSegSec;
+    const nomeOut = `parte_${i+1}.mp3`;
+    await ff.run(
+      '-i', 'full.mp3',
+      '-ss', String(inicio),
+      '-t', String(duracaoSegSec),
+      '-c', 'copy',
+      nomeOut
+    );
+    const data = ff.FS('readFile', nomeOut);
+    ff.FS('unlink', nomeOut);
+    partes.push({
+      blob: new Blob([data.buffer], { type: 'audio/mpeg' }),
+      nome: `${nomeBase}_parte${i+1}.mp3`,
+      idx: i+1,
+      total: totalPartes
+    });
+  }
+  
+  ff.FS('unlink', 'full.mp3');
+  return partes;
+}
+
+const LIMITE_WHISPER = 24 * 1024 * 1024; // 24MB
+const SEG_DURACAO = 20 * 60; // 20 minutos por segmento
 
 async function transcreverUpload(){
   if(!uploadBlobs.length) return showStatus('Selecione pelo menos um arquivo de áudio.','err');
@@ -332,33 +384,24 @@ async function transcreverUpload(){
 
     for(let i = 0; i < uploadBlobs.length; i++){
       const blob = uploadBlobs[i];
-      const total = uploadBlobs.length;
-      
-      showStatus(`Comprimindo arquivo ${i+1}/${total}: ${blob.name}...`, 'loading');
-      let comprimido;
-      try {
-        comprimido = await comprimirAudio(blob);
-      } catch(e) {
-        // Se não conseguir comprimir, tenta enviar direto (pode funcionar se < 25MB)
-        comprimido = blob;
-      }
-
+      const totalArq = uploadBlobs.length;
       const nomeBase = blob.name.replace(/\.[^.]+$/, '');
 
-      if(comprimido.size <= CHUNK_BYTES){
-        // Arquivo cabe em uma requisição
-        showStatus(`Transcrevendo arquivo ${i+1}/${total}...`, 'loading');
-        const texto = await transcreverBlob(comprimido, nomeBase + '.webm', apiKey);
+      showStatus(`Convertendo arquivo ${i+1}/${totalArq}: ${blob.name}...`, 'loading');
+      const mp3 = await converterParaMP3(blob, blob.name);
+
+      if(mp3.size <= LIMITE_WHISPER){
+        showStatus(`Transcrevendo arquivo ${i+1}/${totalArq}...`, 'loading');
+        const texto = await transcreverBlob(mp3, nomeBase + '.mp3', apiKey);
         transcricoes.push(texto);
       } else {
-        // Ainda grande — divide em partes usando slices do comprimido (webm pode ser dividido)
-        const totalChunks = Math.ceil(comprimido.size / CHUNK_BYTES);
-        for(let c = 0; c < totalChunks; c++){
-          showStatus(`Transcrevendo arquivo ${i+1}/${total} — parte ${c+1}/${totalChunks}...`, 'loading');
-          const inicio = c * CHUNK_BYTES;
-          const fim = Math.min(inicio + CHUNK_BYTES, comprimido.size);
-          const chunk = comprimido.slice(inicio, fim, 'audio/webm');
-          const texto = await transcreverBlob(chunk, nomeBase + '_parte' + (c+1) + '.webm', apiKey);
+        // Divide em segmentos de 20 minutos
+        showStatus(`Dividindo arquivo ${i+1}/${totalArq} em partes...`, 'loading');
+        const partes = await dividirMP3(mp3, nomeBase, SEG_DURACAO);
+        
+        for(const parte of partes){
+          showStatus(`Transcrevendo arquivo ${i+1}/${totalArq} — parte ${parte.idx}/${parte.total}...`, 'loading');
+          const texto = await transcreverBlob(parte.blob, parte.nome, apiKey);
           transcricoes.push(texto);
         }
       }
