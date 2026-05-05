@@ -157,13 +157,13 @@ textarea#transcricao{min-height:160px;resize:vertical;font-size:13px;line-height
     <div class="tab-content" id="tab-upload">
       <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
         <div class="upload-icon">📂</div>
-        <div class="upload-label">Clique ou arraste o arquivo de áudio</div>
-        <div class="upload-sub">Gravado pelo Samsung Voice Recorder, celular, etc.</div>
-        <div class="upload-fmt">M4A · MP3 · WAV · OGG · WEBM · MP4</div>
+        <div class="upload-label">Clique ou arraste os arquivos de áudio</div>
+        <div class="upload-sub">Pode enviar múltiplos arquivos — serão unidos automaticamente</div>
+        <div class="upload-fmt">M4A · MP3 · WAV · OGG · WEBM · MP4 · Sem limite de tamanho</div>
       </div>
-      <input type="file" id="file-input" accept="audio/*,.m4a,.mp3,.wav,.ogg,.webm,.mp4" style="display:none" onchange="arquivoSelecionado(this)">
-      <div class="arquivo-info" id="arquivo-info"><span>✅</span><span id="nome-arquivo"></span><button onclick="removerArquivo()" style="margin-left:auto;background:none;border:none;color:var(--red);cursor:pointer;font-size:18px">✕</button></div>
-      <button class="btn-transcrever" onclick="transcreverUpload()">🔄 Transcrever Arquivo</button>
+      <input type="file" id="file-input" accept="audio/*,.m4a,.mp3,.wav,.ogg,.webm,.mp4" style="display:none" multiple onchange="arquivosAdicionados(this)">
+      <div id="lista-arquivos" style="display:flex;flex-direction:column;gap:8px;margin-top:12px"></div>
+      <button class="btn-transcrever" onclick="transcreverUpload()" id="btn-transcrever" style="display:none">🔄 Transcrever Arquivos</button>
     </div>
 
     <div class="tab-content" id="tab-texto">
@@ -215,34 +215,69 @@ function toggleRecorrente(){
   document.getElementById('freq-wrap').classList.toggle('visible',cb.checked);
 }
 
-function arquivoSelecionado(input){
-  if(!input.files[0])return;
-  uploadBlob=input.files[0];
-  document.getElementById('nome-arquivo').textContent=uploadBlob.name+' ('+formatBytes(uploadBlob.size)+')';
-  document.getElementById('arquivo-info').classList.add('show');
+// Upload múltiplos arquivos
+let uploadBlobs = [];
+
+function formatBytes(b){return b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
+
+function arquivosAdicionados(input){
+  if(!input.files.length)return;
+  for(const f of input.files){
+    if(!uploadBlobs.find(b=>b.name===f.name&&b.size===f.size)){
+      uploadBlobs.push(f);
+    }
+  }
+  renderListaArquivos();
 }
+
 function dragOver(e){e.preventDefault();document.getElementById('upload-area').classList.add('dragover')}
 function dragLeave(){document.getElementById('upload-area').classList.remove('dragover')}
 function dropFile(e){
   e.preventDefault();document.getElementById('upload-area').classList.remove('dragover');
-  const f=e.dataTransfer.files[0];
-  if(f){uploadBlob=f;document.getElementById('nome-arquivo').textContent=f.name;document.getElementById('arquivo-info').classList.add('show')}
+  for(const f of e.dataTransfer.files){
+    if(f.type.startsWith('audio/')||/\.(m4a|mp3|wav|ogg|webm|mp4)$/i.test(f.name)){
+      if(!uploadBlobs.find(b=>b.name===f.name&&b.size===f.size)) uploadBlobs.push(f);
+    }
+  }
+  renderListaArquivos();
 }
-function removerArquivo(){uploadBlob=null;document.getElementById('file-input').value='';document.getElementById('arquivo-info').classList.remove('show')}
-function formatBytes(b){return b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
+
+function removerArquivo(idx){
+  uploadBlobs.splice(idx,1);
+  renderListaArquivos();
+}
+
+function renderListaArquivos(){
+  const lista=document.getElementById('lista-arquivos');
+  const btn=document.getElementById('btn-transcrever');
+  if(!uploadBlobs.length){lista.innerHTML='';btn.style.display='none';return;}
+  lista.innerHTML=uploadBlobs.map((f,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;background:rgba(62,207,142,0.1);border:1px solid rgba(62,207,142,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--green)">
+      <span>✅</span>
+      <span style="flex:1">${f.name} <span style="color:var(--muted);font-size:11px">(${formatBytes(f.size)})</span></span>
+      <button onclick="removerArquivo(${i})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:0">✕</button>
+    </div>`).join('');
+  btn.style.display='block';
+}
 
 async function transcreverUpload(){
-  if(!uploadBlob)return showStatus('Selecione um arquivo de áudio primeiro.','err');
-  showStatus('Transcrevendo com Whisper...','loading');
+  if(!uploadBlobs.length)return showStatus('Selecione pelo menos um arquivo de áudio.','err');
+  
+  const total=uploadBlobs.length;
+  showStatus(`Transcrevendo ${total} arquivo(s) com Whisper... Aguarde.`,'loading');
+  
   try{
-    const fd=new FormData();fd.append('audio',uploadBlob,uploadBlob.name||'audio.m4a');
+    const fd=new FormData();
+    for(const blob of uploadBlobs){
+      fd.append('audio',blob,blob.name);
+    }
     const res=await fetch('/api/transcrever',{method:'POST',body:fd});
     const json=await res.json();
     if(!res.ok)throw new Error(json.error||'Erro');
     mudarTab('texto');
     document.getElementById('transcricao').value=json.transcricao;
     document.getElementById('char-count').textContent=json.transcricao.length.toLocaleString('pt-BR')+' chars';
-    showStatus('Transcrição concluída! Clique em Gerar Ata.','ok');
+    showStatus('Transcrição concluída! Revise e clique em Gerar Ata.','ok');
   }catch(err){showStatus('Erro: '+err.message,'err')}
 }
 
@@ -541,7 +576,10 @@ function novaAta(){
   document.getElementById('transcricao').value='';document.getElementById('char-count').textContent='0 chars';
   document.getElementById('resultado').classList.remove('show');document.getElementById('status').className='status';
   document.getElementById('audio-player').classList.remove('show');document.getElementById('timer').classList.remove('show');
-  setGravStatus('Clique para iniciar a gravação','');removerArquivo();ataTexto='';ataMeta=null;
+  setGravStatus('Clique para iniciar a gravação','');
+  uploadBlobs=[];renderListaArquivos();
+  document.getElementById('file-input').value='';
+  ataTexto='';ataMeta=null;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
