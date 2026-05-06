@@ -2,6 +2,7 @@ import formidable from 'formidable';
 import fs from 'fs';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
+import { put, del } from '@vercel/blob';
 
 export const config = { 
   api: { 
@@ -10,69 +11,68 @@ export const config = {
   } 
 };
 
-const GROQ_LIMITE = 24 * 1024 * 1024;
-
-async function transcreverArquivo(filepath, filename, mimetype, groqKey, openaiKey) {
-  const fileSize = fs.statSync(filepath).size;
+async function transcreverUrl(blobUrl, filename, groqKey, openaiKey) {
+  // Baixa o arquivo do Blob
+  const response = await fetch(blobUrl);
+  const buffer = await response.buffer();
   
-  if (fileSize <= GROQ_LIMITE) {
-    return await chamarWhisper(filepath, filename, mimetype, groqKey, openaiKey);
-  }
-  
-  // Arquivo grande — usa ffmpeg via CLI se disponível, senão retorna erro orientativo
-  throw new Error(`Arquivo muito grande (${(fileSize/1024/1024).toFixed(0)}MB). Use arquivos menores que 24MB ou grave em qualidade baixa.`);
-}
+  // Salva temporariamente
+  const tmpPath = `/tmp/${Date.now()}_${filename}`;
+  fs.writeFileSync(tmpPath, buffer);
 
-async function chamarWhisper(filepath, filename, mimetype, groqKey, openaiKey) {
-  // Tenta Groq primeiro
-  if (groqKey) {
-    try {
+  try {
+    // Tenta Groq primeiro
+    if (groqKey) {
+      try {
+        const fd = new FormData();
+        fd.append('file', fs.createReadStream(tmpPath), {
+          filename,
+          contentType: 'audio/mp4',
+        });
+        fd.append('model', 'whisper-large-v3');
+        fd.append('language', 'pt');
+        fd.append('response_format', 'text');
+
+        const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${groqKey}`, ...fd.getHeaders() },
+          body: fd,
+        });
+
+        if (res.ok) return await res.text();
+        const errText = await res.text();
+        console.error('Groq erro:', errText);
+      } catch(e) {
+        console.error('Groq falhou:', e.message);
+      }
+    }
+
+    // Fallback OpenAI
+    if (openaiKey) {
       const fd = new FormData();
-      fd.append('file', fs.createReadStream(filepath), {
-        filename: filename || 'audio.m4a',
-        contentType: mimetype || 'audio/mp4',
+      fd.append('file', fs.createReadStream(tmpPath), {
+        filename,
+        contentType: 'audio/mp4',
       });
-      fd.append('model', 'whisper-large-v3');
+      fd.append('model', 'whisper-1');
       fd.append('language', 'pt');
       fd.append('response_format', 'text');
 
-      const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+      const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${groqKey}`, ...fd.getHeaders() },
+        headers: { 'Authorization': `Bearer ${openaiKey}`, ...fd.getHeaders() },
         body: fd,
       });
 
       if (res.ok) return await res.text();
       const err = await res.text();
-      console.error('Groq erro:', err);
-    } catch(e) {
-      console.error('Groq falhou:', e.message);
+      throw new Error('OpenAI: ' + err);
     }
+
+    throw new Error('Nenhuma chave de transcrição configurada');
+  } finally {
+    fs.unlinkSync(tmpPath);
   }
-
-  // Fallback: OpenAI
-  if (openaiKey) {
-    const fd = new FormData();
-    fd.append('file', fs.createReadStream(filepath), {
-      filename: filename || 'audio.m4a',
-      contentType: mimetype || 'audio/mp4',
-    });
-    fd.append('model', 'whisper-1');
-    fd.append('language', 'pt');
-    fd.append('response_format', 'text');
-
-    const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${openaiKey}`, ...fd.getHeaders() },
-      body: fd,
-    });
-
-    if (res.ok) return await res.text();
-    const err = await res.text();
-    throw new Error('OpenAI: ' + err);
-  }
-
-  throw new Error('Nenhuma chave de transcrição configurada');
 }
 
 export default async function handler(req, res) {
@@ -86,30 +86,15 @@ export default async function handler(req, res) {
   const openaiKey = process.env.OPENAI_API_KEY;
 
   try {
-    const form = formidable({ 
-      maxFileSize: 500 * 1024 * 1024,
-      maxFiles: 10,
-      multiples: true
-    });
-    
-    const [, files] = await form.parse(req);
-    const audioFiles = Array.isArray(files.audio) ? files.audio : [files.audio].filter(Boolean);
-    
-    if (!audioFiles.length) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    const { blobUrl, filename } = req.body;
+    if (!blobUrl) return res.status(400).json({ error: 'blobUrl não fornecido' });
 
-    const transcricoes = [];
-    for (const file of audioFiles) {
-      const texto = await transcreverArquivo(
-        file.filepath,
-        file.originalFilename,
-        file.mimetype,
-        groqKey,
-        openaiKey
-      );
-      transcricoes.push(texto);
-    }
+    const transcricao = await transcreverUrl(blobUrl, filename || 'audio.m4a', groqKey, openaiKey);
+    
+    // Remove o arquivo do Blob após transcrever
+    try { await del(blobUrl); } catch(e) { console.warn('Não conseguiu deletar blob:', e.message); }
 
-    return res.status(200).json({ transcricao: transcricoes.join('\n\n') });
+    return res.status(200).json({ transcricao });
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
