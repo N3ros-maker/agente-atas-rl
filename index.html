@@ -260,13 +260,29 @@ function renderListaArquivos(){
   btn.style.display='block';
 }
 
-async function getOpenAIKey(){
+async function getKeys(){
   const res = await fetch('/api/openai-key');
-  const json = await res.json();
-  return json.key;
+  return await res.json();
 }
 
-async function transcreverBlob(blob, nome, apiKey){
+// Groq Whisper — suporta arquivos grandes, gratuito
+async function transcreverComGroq(blob, nome, groqKey){
+  const fd = new FormData();
+  fd.append('file', blob, nome);
+  fd.append('model', 'whisper-large-v3');
+  fd.append('language', 'pt');
+  fd.append('response_format', 'text');
+  const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + groqKey },
+    body: fd
+  });
+  if(!res.ok){ const err = await res.text(); throw new Error('Groq: ' + err); }
+  return await res.text();
+}
+
+// OpenAI Whisper — fallback para arquivos até 25MB
+async function transcreverComOpenAI(blob, nome, openaiKey){
   const fd = new FormData();
   fd.append('file', blob, nome);
   fd.append('model', 'whisper-1');
@@ -274,114 +290,27 @@ async function transcreverBlob(blob, nome, apiKey){
   fd.append('response_format', 'text');
   const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
     method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + apiKey },
+    headers: { 'Authorization': 'Bearer ' + openaiKey },
     body: fd
   });
-  if(!res.ok){ const err = await res.text(); throw new Error('Whisper: ' + err); }
+  if(!res.ok){ const err = await res.text(); throw new Error('OpenAI: ' + err); }
   return await res.text();
 }
 
-// Converte áudio para WAV mono usando Web Audio API
-// e retorna array de Blobs de segmentos de ~20min
-async function processarAudio(blob, nomeBase){
-  showStatus('Decodificando áudio...', 'loading');
-  
-  const arrayBuffer = await blob.arrayBuffer();
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-  await audioCtx.close();
-
-  const sampleRate = 16000;
-  const duracao = audioBuffer.duration; // segundos
-  const segDuracao = 20 * 60; // 20 minutos por segmento
-  const totalSegs = Math.ceil(duracao / segDuracao);
-  const segmentos = [];
-
-  for(let i = 0; i < totalSegs; i++){
-    const inicio = Math.floor(i * segDuracao * sampleRate);
-    const fim = Math.min(Math.floor((i + 1) * segDuracao * sampleRate), audioBuffer.length);
-    const tamanho = fim - inicio;
-
-    // Cria buffer do segmento em mono 16kHz
-    const offCtx = new OfflineAudioContext(1, tamanho * (sampleRate / audioBuffer.sampleRate), sampleRate);
-    const src = offCtx.createBufferSource();
-    
-    // Cria sub-buffer
-    const subBuf = new AudioContext({ sampleRate: audioBuffer.sampleRate }).createBuffer(
-      audioBuffer.numberOfChannels,
-      fim - inicio,
-      audioBuffer.sampleRate
-    );
-    for(let ch = 0; ch < audioBuffer.numberOfChannels; ch++){
-      subBuf.copyToChannel(audioBuffer.getChannelData(ch).slice(inicio, fim), ch);
-    }
-    
-    const offCtx2 = new OfflineAudioContext(1, Math.ceil(tamanho * sampleRate / audioBuffer.sampleRate), sampleRate);
-    const src2 = offCtx2.createBufferSource();
-    src2.buffer = subBuf;
-    src2.connect(offCtx2.destination);
-    src2.start();
-    const rendered = await offCtx2.startRendering();
-
-    // Codifica como WAV
-    const wavBlob = audioBufferToWav(rendered);
-    segmentos.push({
-      blob: wavBlob,
-      nome: totalSegs > 1 ? `${nomeBase}_parte${i+1}.wav` : `${nomeBase}.wav`,
-      idx: i+1,
-      total: totalSegs
-    });
-  }
-
-  return segmentos;
-}
-
-// Converte AudioBuffer para WAV Blob
-function audioBufferToWav(buffer){
-  const numCh = buffer.numberOfChannels;
-  const sampleRate = buffer.sampleRate;
-  const numSamples = buffer.length;
-  const bitsPerSample = 16;
-  const byteRate = sampleRate * numCh * bitsPerSample / 8;
-  const blockAlign = numCh * bitsPerSample / 8;
-  const dataSize = numSamples * numCh * bitsPerSample / 8;
-  const bufSize = 44 + dataSize;
-  const ab = new ArrayBuffer(bufSize);
-  const view = new DataView(ab);
-
-  const writeStr = (off, str) => { for(let i=0;i<str.length;i++) view.setUint8(off+i, str.charCodeAt(i)); };
-  writeStr(0, 'RIFF');
-  view.setUint32(4, bufSize - 8, true);
-  writeStr(8, 'WAVE');
-  writeStr(12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
-  view.setUint16(22, numCh, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, byteRate, true);
-  view.setUint16(32, blockAlign, true);
-  view.setUint16(34, bitsPerSample, true);
-  writeStr(36, 'data');
-  view.setUint32(40, dataSize, true);
-
-  const ch0 = buffer.getChannelData(0);
-  let off = 44;
-  for(let i=0; i<numSamples; i++){
-    const s = Math.max(-1, Math.min(1, ch0[i]));
-    view.setInt16(off, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-    off += 2;
-  }
-
-  return new Blob([ab], { type: 'audio/wav' });
-}
+// Groq suporta até 25MB também — para arquivos maiores divide em partes
+// Mas o Groq é muito mais rápido e preciso
+const GROQ_LIMITE = 24 * 1024 * 1024; // 24MB
 
 async function transcreverUpload(){
   if(!uploadBlobs.length) return showStatus('Selecione pelo menos um arquivo de áudio.','err');
 
   try{
     showStatus('Obtendo credenciais...','loading');
-    const apiKey = await getOpenAIKey();
-    if(!apiKey) throw new Error('Chave OpenAI não configurada no servidor');
+    const keys = await getKeys();
+    const groqKey = keys.groqKey;
+    const openaiKey = keys.openaiKey;
+    
+    if(!groqKey && !openaiKey) throw new Error('Nenhuma chave de transcrição configurada');
 
     const transcricoes = [];
 
@@ -389,21 +318,49 @@ async function transcreverUpload(){
       const blob = uploadBlobs[i];
       const totalArq = uploadBlobs.length;
       const nomeBase = blob.name.replace(/\.[^.]+$/, '');
+      const ext = blob.name.split('.').pop().toLowerCase() || 'm4a';
 
-      showStatus(`Processando arquivo ${i+1}/${totalArq}: ${blob.name}...`, 'loading');
-      const segmentos = await processarAudio(blob, nomeBase);
-
-      for(const seg of segmentos){
-        showStatus(
-          seg.total > 1
-            ? `Transcrevendo arquivo ${i+1}/${totalArq} — parte ${seg.idx}/${seg.total}...`
-            : `Transcrevendo arquivo ${i+1}/${totalArq}...`,
-          'loading'
-        );
-        const texto = await transcreverBlob(seg.blob, seg.nome, apiKey);
-        transcricoes.push(texto);
+      if(blob.size <= GROQ_LIMITE){
+        // Arquivo cabe direto — usa Groq
+        showStatus(`Transcrevendo arquivo ${i+1}/${totalArq}...`, 'loading');
+        if(groqKey){
+          const texto = await transcreverComGroq(blob, blob.name, groqKey);
+          transcricoes.push(texto);
+        } else {
+          const texto = await transcreverComOpenAI(blob, blob.name, openaiKey);
+          transcricoes.push(texto);
+        }
+      } else {
+        // Arquivo grande — divide em partes de 24MB
+        // O Groq aceita partes de M4A/MP4 — tenta cada parte
+        const totalPartes = Math.ceil(blob.size / GROQ_LIMITE);
+        showStatus(`Arquivo grande — dividindo em ${totalPartes} partes...`, 'loading');
+        
+        for(let p = 0; p < totalPartes; p++){
+          const inicio = p * GROQ_LIMITE;
+          const fim = Math.min(inicio + GROQ_LIMITE, blob.size);
+          const parte = blob.slice(inicio, fim, blob.type || 'audio/mp4');
+          const nomeParte = `${nomeBase}_parte${p+1}.${ext}`;
+          
+          showStatus(`Transcrevendo arquivo ${i+1}/${totalArq} — parte ${p+1}/${totalPartes}...`, 'loading');
+          
+          try {
+            let texto;
+            if(groqKey){
+              texto = await transcreverComGroq(parte, nomeParte, groqKey);
+            } else {
+              texto = await transcreverComOpenAI(parte, nomeParte, openaiKey);
+            }
+            transcricoes.push(texto);
+          } catch(e) {
+            console.warn(`Parte ${p+1} falhou:`, e.message);
+            // Continua com as outras partes
+          }
+        }
       }
     }
+
+    if(!transcricoes.length) throw new Error('Nenhum trecho foi transcrito com sucesso');
 
     const transcricaoFinal = transcricoes.join('\n\n');
     mudarTab('texto');
