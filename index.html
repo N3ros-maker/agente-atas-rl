@@ -273,7 +273,7 @@ async function transcreverUpload(){
       // 1. Envia arquivo para o Vercel Blob (sem limite de tamanho)
       showStatus(`Enviando arquivo ${i+1}/${totalArq}: ${blob.name} (${formatBytes(blob.size)})...`, 'loading');
       
-      const { upload } = await import('https://unpkg.com/@vercel/blob@0.27.0/client.js');
+      const { upload } = await import('https://cdn.jsdelivr.net/npm/@vercel/blob@0.27.0/+esm');
       const blobResult = await upload(blob.name, blob, {
         access: 'private',
         handleUploadUrl: '/api/upload-url',
