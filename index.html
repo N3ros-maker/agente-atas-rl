@@ -39,8 +39,13 @@ textarea{resize:vertical;min-height:120px;line-height:1.5}
 .rec-dot{width:10px;height:10px;border-radius:50%;background:currentColor}
 .timer{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--gold);text-align:center;margin:10px 0;display:none}
 .timer.show{display:block}
-audio{width:100%;margin-top:10px;display:none;border-radius:8px}
-audio.show{display:block}
+.progress-box{display:none;margin-top:12px;background:var(--dark3);border-radius:8px;padding:14px}
+.progress-box.show{display:block}
+.progress-label{font-size:11px;color:var(--muted);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.progress-bar-bg{background:var(--dark4);border-radius:4px;height:6px;overflow:hidden}
+.progress-bar{background:var(--gold);height:6px;border-radius:4px;transition:width .3s;width:0%}
+.progress-status{font-size:11px;color:var(--gold);margin-top:6px}
+audio{width:100%;margin-top:10px;border-radius:8px}
 .upload-area{border:2px dashed var(--dark4);border-radius:12px;padding:32px;text-align:center;cursor:pointer;transition:.2s}
 .upload-area:hover,.upload-area.drag{border-color:var(--gold);background:rgba(201,168,76,0.05)}
 .upload-icon{font-size:32px;margin-bottom:8px}
@@ -60,6 +65,8 @@ input:checked+.slider:before{transform:translateX(20px);background:var(--gold)}
 .btn-primary{width:100%;padding:16px;background:var(--gold);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:3px;border:none;border-radius:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .btn-primary:hover{background:var(--gold-lt)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{width:100%;padding:12px;background:transparent;color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;border:1px solid var(--dark4);border-radius:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
 .status{display:none;align-items:center;gap:10px;padding:14px 16px;border-radius:8px;background:var(--dark3);border:1px solid var(--dark4);font-size:13px}
 .status.show{display:flex}
 .status.err{border-color:var(--red);color:var(--red)}
@@ -99,119 +106,92 @@ input:checked+.slider:before{transform:translateX(20px);background:var(--gold)}
 </header>
 <main>
 
-<!-- STEP 1: DADOS DA REUNIÃO -->
+<!-- DADOS DA REUNIÃO -->
 <div class="card">
-  <div class="card-header">
-    <div class="card-icon">📋</div>
-    <div class="card-title">Dados da Reunião</div>
-  </div>
+  <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Dados da Reunião</div></div>
   <div class="grid2" style="margin-bottom:14px">
-    <div>
-      <label>Título da Reunião</label>
-      <input type="text" id="titulo" placeholder="Ex: Reunião de Obra - Bloco A">
-    </div>
-    <div>
-      <label>Tipo</label>
+    <div><label>Título da Reunião</label><input type="text" id="titulo" placeholder="Ex: Reunião de Obra - Bloco A"></div>
+    <div><label>Tipo</label>
       <select id="tipo">
         <option value="">Selecione...</option>
-        <option>Obra</option>
-        <option>Comercial</option>
-        <option>Diretoria</option>
-        <option>Consultoria</option>
-        <option>Financeiro</option>
-        <option>RH</option>
-        <option>Treinamento</option>
-        <option>Avaliação Acadêmica</option>
-        <option>Outro</option>
+        <option>Obra</option><option>Comercial</option><option>Diretoria</option>
+        <option>Consultoria</option><option>Financeiro</option><option>RH</option>
+        <option>Treinamento</option><option>Avaliação Acadêmica</option><option>Outro</option>
       </select>
     </div>
   </div>
   <div class="grid3" style="margin-bottom:14px">
-    <div>
-      <label>Data</label>
-      <input type="date" id="data">
-    </div>
-    <div>
-      <label>Local / Plataforma</label>
-      <input type="text" id="local" placeholder="Ex: Escritório / Google Meet">
-    </div>
-    <div>
-      <label>Facilitador</label>
-      <input type="text" id="facilitador" placeholder="Nome do responsável">
-    </div>
+    <div><label>Data</label><input type="date" id="data"></div>
+    <div><label>Local / Plataforma</label><input type="text" id="local" placeholder="Ex: Escritório / Google Meet"></div>
+    <div><label>Facilitador</label><input type="text" id="facilitador" placeholder="Nome do responsável"></div>
   </div>
-  <div style="margin-bottom:14px">
-    <label>Participantes</label>
-    <input type="text" id="participantes" placeholder="Ex: João Silva, Maria Souza, Pedro Lima">
-  </div>
+  <div style="margin-bottom:14px"><label>Participantes</label><input type="text" id="participantes" placeholder="Ex: João Silva, Maria Souza, Pedro Lima"></div>
   <div class="toggle-row">
     <span class="toggle-label">Reunião recorrente?</span>
     <label class="toggle"><input type="checkbox" id="recorrente" onchange="toggleFreq()"><span class="slider"></span></label>
   </div>
   <div class="freq-row" id="freq-row">
     <label>Frequência</label>
-    <select id="frequencia">
-      <option value="">Selecione...</option>
-      <option>Semanal</option>
-      <option>Quinzenal</option>
-      <option>Mensal</option>
-    </select>
+    <select id="frequencia"><option value="">Selecione...</option><option>Semanal</option><option>Quinzenal</option><option>Mensal</option></select>
   </div>
 </div>
 
-<!-- STEP 2: TRANSCRIÇÃO -->
+<!-- TRANSCRIÇÃO -->
 <div class="card">
-  <div class="card-header">
-    <div class="card-icon">🎙️</div>
-    <div class="card-title">Transcrição</div>
-  </div>
+  <div class="card-header"><div class="card-icon">🎙️</div><div class="card-title">Transcrição</div></div>
   <div class="tabs">
-    <button class="tab active" onclick="mudarTab('texto')">Colar texto</button>
-    <button class="tab" onclick="mudarTab('gravar')">Gravar áudio</button>
-    <button class="tab" onclick="mudarTab('upload')">Enviar arquivo</button>
+    <button class="tab active" onclick="mudarTab('texto',this)">Colar texto</button>
+    <button class="tab" onclick="mudarTab('gravar',this)">Gravar áudio</button>
+    <button class="tab" onclick="mudarTab('upload',this)">Enviar arquivo</button>
   </div>
 
-  <!-- ABA TEXTO -->
+  <!-- TEXTO -->
   <div class="tab-content active" id="tab-texto">
     <textarea id="transcricao" placeholder="Cole aqui a transcrição da reunião..." oninput="updateCount()"></textarea>
     <div class="char-count" id="char-count">0 chars</div>
   </div>
 
-  <!-- ABA GRAVAR -->
+  <!-- GRAVAR -->
   <div class="tab-content" id="tab-gravar">
     <button class="rec-btn" id="rec-btn" onclick="toggleGravacao()">
-      <span class="rec-dot"></span>
-      <span id="rec-txt">INICIAR GRAVAÇÃO</span>
+      <span class="rec-dot"></span><span id="rec-txt">INICIAR GRAVAÇÃO</span>
     </button>
     <div class="timer" id="timer">00:00</div>
-    <audio class="show" id="audio-player" controls style="display:none"></audio>
-    <p style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center">Após gravar, clique em "Transcrever" para enviar ao Whisper</p>
-    <button class="btn-primary" id="btn-transcrever-grav" style="margin-top:12px;display:none" onclick="transcreverGravacao()">
-      📝 TRANSCREVER ÁUDIO
-    </button>
+    <!-- barra de progresso da transcrição -->
+    <div class="progress-box" id="progress-box">
+      <div class="progress-label">Transcrevendo áudio</div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="progress-status" id="progress-status">Preparando...</div>
+    </div>
+    <audio id="audio-player" controls></audio>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center">
+      Suporta gravações longas — áudio dividido automaticamente em segmentos para transcrição
+    </p>
   </div>
 
-  <!-- ABA UPLOAD -->
+  <!-- UPLOAD -->
   <div class="tab-content" id="tab-upload">
-    <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+    <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave()" ondrop="dropFile(event)">
       <div class="upload-icon">🎵</div>
       <p style="font-weight:600;margin-bottom:4px">Clique ou arraste o arquivo de áudio</p>
-      <p class="upload-text">M4A, MP3, WAV, WebM, OGG — até 25MB por arquivo</p>
+      <p class="upload-text">M4A, MP3, WAV, WebM, OGG — qualquer tamanho</p>
       <input type="file" id="file-input" accept="audio/*" multiple style="display:none" onchange="selecionarArquivos(this.files)">
     </div>
     <div class="upload-info" id="upload-info"></div>
-    <button class="btn-primary" id="btn-transcrever-upl" style="margin-top:12px;display:none" onclick="transcreverUpload()">
+    <div class="progress-box" id="progress-box-upl">
+      <div class="progress-label">Transcrevendo arquivo</div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="progress-bar-upl"></div></div>
+      <div class="progress-status" id="progress-status-upl">Preparando...</div>
+    </div>
+    <button class="btn-primary" id="btn-transcrever-upl" style="display:none;margin-top:12px" onclick="transcreverUpload()">
       📝 TRANSCREVER ARQUIVO
     </button>
   </div>
 </div>
 
-<!-- STEP 3: GERAR -->
+<!-- GERAR -->
 <div class="card">
-  <div class="card-header">
-    <div class="card-icon">⚡</div>
-    <div class="card-title">Gerar Ata</div>
-  </div>
+  <div class="card-header"><div class="card-icon">⚡</div><div class="card-title">Gerar Ata</div></div>
   <button class="btn-primary" id="btn-gerar" onclick="gerarAta()">⚡ GERAR ATA EM PDF</button>
   <div class="status" id="status" style="margin-top:12px">
     <div class="spin" id="spin"></div>
@@ -222,10 +202,7 @@ input:checked+.slider:before{transform:translateX(20px);background:var(--gold)}
 <!-- RESULTADO -->
 <div class="resultado" id="resultado">
   <div class="resultado-header">
-    <div>
-      <div class="resultado-titulo">✅ ATA GERADA</div>
-      <div class="resultado-sub" id="resultado-sub"></div>
-    </div>
+    <div><div class="resultado-titulo">✅ ATA GERADA</div><div class="resultado-sub" id="resultado-sub"></div></div>
     <div>
       <button class="btn-nova" onclick="novaAta()">+ Nova Ata</button>
       <button class="btn-pdf" onclick="baixarPDF()">⬇ BAIXAR PDF</button>
@@ -240,10 +217,7 @@ input:checked+.slider:before{transform:translateX(20px);background:var(--gold)}
 
 <!-- HISTÓRICO -->
 <div class="card" id="historico-card" style="display:none">
-  <div class="card-header">
-    <div class="card-icon">🗂️</div>
-    <div class="card-title">Histórico desta sessão</div>
-  </div>
+  <div class="card-header"><div class="card-icon">🗂️</div><div class="card-title">Histórico desta sessão</div></div>
   <div class="hist-list" id="hist-list"></div>
 </div>
 
@@ -258,21 +232,21 @@ let segundos = 0;
 let gravacaoBlob = null;
 let uploadBlobs = [];
 let historico = [];
+const SEGMENT_SECONDS = 18 * 60; // 18 minutos por segmento
+const WHISPER_LIMIT   = 24 * 1024 * 1024; // 24MB
 
 // ── TABS ────────────────────────────────────────────────────────
-function mudarTab(id) {
-  document.querySelectorAll('.tab,.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelector(`#tab-${id}`).classList.add('active');
-  event.target.classList.add('active');
+function mudarTab(id, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
 }
 
-// ── CHAR COUNT ──────────────────────────────────────────────────
 function updateCount() {
-  const v = document.getElementById('transcricao').value.length;
-  document.getElementById('char-count').textContent = v.toLocaleString('pt-BR') + ' chars';
+  document.getElementById('char-count').textContent = document.getElementById('transcricao').value.length.toLocaleString('pt-BR') + ' chars';
 }
 
-// ── TOGGLE FREQUÊNCIA ───────────────────────────────────────────
 function toggleFreq() {
   document.getElementById('freq-row').classList.toggle('show', document.getElementById('recorrente').checked);
 }
@@ -284,49 +258,158 @@ async function toggleGravacao() {
     clearInterval(timerInterval);
     document.getElementById('rec-btn').classList.remove('recording');
     document.getElementById('rec-txt').textContent = 'INICIAR GRAVAÇÃO';
+    document.getElementById('timer').classList.remove('show');
     return;
   }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
     segundos = 0;
-    mediaRecorder = new MediaRecorder(stream);
-    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      gravacaoBlob = new Blob(audioChunks, { type: 'audio/webm' });
-      const url = URL.createObjectURL(gravacaoBlob);
-      const player = document.getElementById('audio-player');
-      player.src = url; player.style.display = 'block';
-      document.getElementById('btn-transcrever-grav').style.display = 'flex';
+    // Tenta opus de baixo bitrate para economizar tamanho durante gravação
+    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+      ? 'audio/webm;codecs=opus' : 'audio/webm';
+    mediaRecorder = new MediaRecorder(stream, { mimeType, audioBitsPerSecond: 32000 });
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      gravacaoBlob = new Blob(audioChunks, { type: mimeType });
+      document.getElementById('audio-player').src = URL.createObjectURL(gravacaoBlob);
       stream.getTracks().forEach(t => t.stop());
+      await transcreverGravacao();
     };
-    mediaRecorder.start();
+    mediaRecorder.start(1000); // chunk a cada segundo
     document.getElementById('rec-btn').classList.add('recording');
     document.getElementById('rec-txt').textContent = 'PARAR GRAVAÇÃO';
     document.getElementById('timer').classList.add('show');
     timerInterval = setInterval(() => {
       segundos++;
-      const m = String(Math.floor(segundos/60)).padStart(2,'0');
-      const s = String(segundos%60).padStart(2,'0');
+      const m = String(Math.floor(segundos / 60)).padStart(2, '0');
+      const s = String(segundos % 60).padStart(2, '0');
       document.getElementById('timer').textContent = `${m}:${s}`;
     }, 1000);
   } catch(e) { showStatus('Erro ao acessar microfone: ' + e.message, 'err'); }
 }
 
+// Divide AudioBuffer em segmentos e reencode cada um como WebM via MediaRecorder
+async function dividirEReencodar(audioBuffer, sampleRate) {
+  const totalSamples = audioBuffer.length;
+  const samplesPerSegment = SEGMENT_SECONDS * sampleRate;
+  const totalSegments = Math.ceil(totalSamples / samplesPerSegment);
+  const segmentos = [];
+
+  for (let i = 0; i < totalSegments; i++) {
+    const inicio = i * samplesPerSegment;
+    const fim = Math.min(inicio + samplesPerSegment, totalSamples);
+    const segBuffer = new AudioContext({ sampleRate }).createBuffer(1, fim - inicio, sampleRate);
+    segBuffer.copyToChannel(audioBuffer.getChannelData(0).slice(inicio, fim), 0);
+
+    // Reencode via MediaRecorder
+    const blob = await new Promise((resolve, reject) => {
+      const ctx = new AudioContext({ sampleRate });
+      const dest = ctx.createMediaStreamDestination();
+      const src = ctx.createBufferSource();
+      src.buffer = segBuffer;
+      src.connect(dest);
+      const chunks = [];
+      const mr = new MediaRecorder(dest.stream, {
+        mimeType: MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm',
+        audioBitsPerSecond: 32000
+      });
+      mr.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+      mr.onstop = () => { ctx.close(); resolve(new Blob(chunks, { type: 'audio/webm' })); };
+      mr.onerror = reject;
+      mr.start();
+      src.start();
+      src.onended = () => mr.stop();
+    });
+    segmentos.push(blob);
+  }
+  return segmentos;
+}
+
 async function transcreverGravacao() {
   if (!gravacaoBlob) return;
-  showStatus('Transcrevendo áudio gravado...', 'loading');
+  const progressBox = document.getElementById('progress-box');
+  const progressBar = document.getElementById('progress-bar');
+  const progressStatus = document.getElementById('progress-status');
+  progressBox.classList.add('show');
+  progressStatus.textContent = 'Obtendo credenciais...';
+
   try {
-    const fd = new FormData();
-    fd.append('audio', gravacaoBlob, 'gravacao.webm');
-    const res = await fetch('/api/transcrever', { method: 'POST', body: fd });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error);
-    mudarTab('texto');
-    document.getElementById('transcricao').value = json.transcricao;
-    updateCount();
-    showStatus('Transcrição concluída! Revise e clique em Gerar Ata.', 'ok');
-  } catch(e) { showStatus('Erro: ' + e.message, 'err'); }
+    const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.key);
+
+    // Se couber direto, envia de uma vez
+    if (gravacaoBlob.size <= WHISPER_LIMIT) {
+      progressStatus.textContent = 'Transcrevendo...';
+      progressBar.style.width = '50%';
+      const texto = await chamarWhisper(gravacaoBlob, 'gravacao.webm', apiKey);
+      progressBar.style.width = '100%';
+      progressStatus.textContent = '✅ Concluído!';
+      jogarNoTexto(texto);
+      return;
+    }
+
+    // Arquivo grande — divide por tempo usando Web Audio API
+    progressStatus.textContent = 'Decodificando áudio...';
+    const arrayBuffer = await gravacaoBlob.arrayBuffer();
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+    const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+    await audioCtx.close();
+
+    // Mono downmix
+    const mono = audioBuffer.numberOfChannels > 1
+      ? (() => {
+          const ch0 = audioBuffer.getChannelData(0);
+          const ch1 = audioBuffer.getChannelData(1);
+          const out = new Float32Array(ch0.length);
+          for (let i = 0; i < ch0.length; i++) out[i] = (ch0[i] + ch1[i]) / 2;
+          const buf = new AudioBuffer({ length: out.length, sampleRate: 16000, numberOfChannels: 1 });
+          buf.copyToChannel(out, 0);
+          return buf;
+        })()
+      : audioBuffer;
+
+    progressStatus.textContent = 'Dividindo em segmentos...';
+    const segmentos = await dividirEReencodar(mono, 16000);
+    const transcricoes = [];
+
+    for (let i = 0; i < segmentos.length; i++) {
+      const pct = Math.round(((i) / segmentos.length) * 100);
+      progressBar.style.width = pct + '%';
+      progressStatus.textContent = `Transcrevendo parte ${i + 1} de ${segmentos.length}...`;
+      const texto = await chamarWhisper(segmentos[i], `seg${i + 1}.webm`, apiKey);
+      transcricoes.push(texto);
+    }
+
+    progressBar.style.width = '100%';
+    progressStatus.textContent = '✅ Concluído!';
+    jogarNoTexto(transcricoes.join('\n\n'));
+
+  } catch(e) {
+    progressStatus.textContent = '❌ Erro: ' + e.message;
+    showStatus('Erro na transcrição: ' + e.message, 'err');
+  }
+}
+
+async function chamarWhisper(blob, nome, apiKey) {
+  const fd = new FormData();
+  fd.append('file', blob, nome);
+  fd.append('model', 'whisper-1');
+  fd.append('language', 'pt');
+  fd.append('response_format', 'text');
+  const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + apiKey },
+    body: fd
+  });
+  if (!res.ok) throw new Error('Whisper: ' + await res.text());
+  return await res.text();
+}
+
+function jogarNoTexto(texto) {
+  mudarTab('texto', document.querySelector('.tab'));
+  document.getElementById('transcricao').value = texto;
+  updateCount();
+  showStatus('Transcrição concluída! Revise e clique em Gerar Ata.', 'ok');
 }
 
 // ── UPLOAD ──────────────────────────────────────────────────────
@@ -345,55 +428,79 @@ function selecionarArquivos(files) {
 }
 
 function formatBytes(b) {
-  if (b < 1024) return b + ' B';
-  if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+  if (b < 1024*1024) return (b/1024).toFixed(0) + ' KB';
   return (b/(1024*1024)).toFixed(1) + ' MB';
 }
 
 async function transcreverUpload() {
-  if (!uploadBlobs.length) return showStatus('Selecione um arquivo de áudio.', 'err');
-  const WHISPER_LIMIT = 24 * 1024 * 1024;
+  if (!uploadBlobs.length) return showStatus('Selecione um arquivo.', 'err');
+  const progressBox = document.getElementById('progress-box-upl');
+  const progressBar = document.getElementById('progress-bar-upl');
+  const progressStatus = document.getElementById('progress-status-upl');
+  progressBox.classList.add('show');
+  document.getElementById('btn-transcrever-upl').style.display = 'none';
 
   try {
-    const transcricoes = [];
     const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.key);
+    const transcricoes = [];
 
     for (let i = 0; i < uploadBlobs.length; i++) {
       const blob = uploadBlobs[i];
-      showStatus(`Transcrevendo arquivo ${i+1}/${uploadBlobs.length}: ${blob.name}...`, 'loading');
+      progressStatus.textContent = `Processando ${blob.name}...`;
 
-      if (blob.size > WHISPER_LIMIT) {
-        showStatus(`Arquivo grande (${formatBytes(blob.size)}) — enviando em partes...`, 'loading');
+      if (blob.size <= WHISPER_LIMIT) {
+        progressBar.style.width = '50%';
+        const texto = await chamarWhisper(blob, blob.name, apiKey);
+        transcricoes.push(texto);
+        progressBar.style.width = '100%';
+      } else {
+        // Arquivo grande — mesma lógica do gravador
+        progressStatus.textContent = `Decodificando ${blob.name} (${formatBytes(blob.size)})...`;
+        const arrayBuffer = await blob.arrayBuffer();
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+        const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+        await audioCtx.close();
+
+        const mono = audioBuffer.numberOfChannels > 1
+          ? (() => {
+              const ch0 = audioBuffer.getChannelData(0);
+              const ch1 = audioBuffer.getChannelData(1);
+              const out = new Float32Array(ch0.length);
+              for (let j = 0; j < ch0.length; j++) out[j] = (ch0[j] + ch1[j]) / 2;
+              const buf = new AudioBuffer({ length: out.length, sampleRate: 16000, numberOfChannels: 1 });
+              buf.copyToChannel(out, 0);
+              return buf;
+            })()
+          : audioBuffer;
+
+        progressStatus.textContent = 'Dividindo em segmentos...';
+        const segmentos = await dividirEReencodar(mono, 16000);
+
+        for (let s = 0; s < segmentos.length; s++) {
+          const pct = Math.round((s / segmentos.length) * 100);
+          progressBar.style.width = pct + '%';
+          progressStatus.textContent = `Transcrevendo parte ${s+1} de ${segmentos.length}...`;
+          const texto = await chamarWhisper(segmentos[s], `parte${s+1}.webm`, apiKey);
+          transcricoes.push(texto);
+        }
+        progressBar.style.width = '100%';
       }
-
-      const fd = new FormData();
-      fd.append('file', blob, blob.name);
-      fd.append('model', 'whisper-1');
-      fd.append('language', 'pt');
-      fd.append('response_format', 'text');
-
-      const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + apiKey },
-        body: fd
-      });
-      if (!res.ok) throw new Error('Whisper: ' + await res.text());
-      transcricoes.push(await res.text());
     }
 
-    const transcricaoFinal = transcricoes.join('\n\n');
-    mudarTab('texto');
-    document.getElementById('transcricao').value = transcricaoFinal;
-    updateCount();
-    showStatus('Transcrição concluída! Revise e clique em Gerar Ata.', 'ok');
-  } catch(e) { showStatus('Erro: ' + e.message, 'err'); }
+    progressStatus.textContent = '✅ Concluído!';
+    jogarNoTexto(transcricoes.join('\n\n'));
+
+  } catch(e) {
+    progressStatus.textContent = '❌ Erro: ' + e.message;
+    showStatus('Erro: ' + e.message, 'err');
+    document.getElementById('btn-transcrever-upl').style.display = 'flex';
+  }
 }
 
 // ── GERAR ATA ────────────────────────────────────────────────────
 async function gerarAta() {
   const transcricao = document.getElementById('transcricao').value.trim();
   if (!transcricao) return showStatus('Cole ou grave a transcrição primeiro.', 'err');
-
   const titulo      = document.getElementById('titulo').value.trim() || 'Reunião';
   const tipo        = document.getElementById('tipo').value || 'Geral';
   const dataVal     = document.getElementById('data').value;
@@ -437,7 +544,6 @@ Retorne EXATAMENTE neste formato JSON:
 
   setLoading(true);
   showStatus('Processando transcrição com IA...', 'loading');
-
   try {
     const res = await fetch('/api/gerar-ata', {
       method: 'POST',
@@ -446,10 +552,8 @@ Retorne EXATAMENTE neste formato JSON:
     });
     const json = await res.json();
     if (!res.ok) throw new Error(json.error || 'Erro na API');
-
     ataAtual = json.ata;
 
-    // Monta preview de texto
     let preview = `TEMA GERAL\n${ataAtual.tema_geral || ''}\n\n`;
     (ataAtual.pontos_discutidos || []).forEach(b => {
       if (b.titulo) preview += `${b.titulo}\n`;
@@ -470,7 +574,6 @@ Retorne EXATAMENTE neste formato JSON:
       preview += 'OBSERVAÇÕES\n';
       ataAtual.observacoes.forEach(o => preview += `  • ${o}\n`);
     }
-
     document.getElementById('preview-box').textContent = preview;
 
     if (recorrente && ataAtual.compromissos_proxima_reuniao?.length) {
@@ -484,28 +587,23 @@ Retorne EXATAMENTE neste formato JSON:
     document.getElementById('resultado-sub').textContent = `${tipo} · ${dataFmt}`;
     adicionarHistorico(titulo, dataFmt, tipo);
     showStatus('Ata gerada! Clique em Baixar PDF.', 'ok');
-  } catch(e) {
-    showStatus('Erro: ' + e.message, 'err');
-  }
+  } catch(e) { showStatus('Erro: ' + e.message, 'err'); }
   setLoading(false);
 }
 
-// ── GERAR PDF — PADRÃO RL CONSTRUÇÕES v2 ─────────────────────────
+// ── PDF — PADRÃO RL CONSTRUÇÕES v2 ───────────────────────────────
 async function baixarPDF() {
   if (!ataAtual) return;
   if (!window.jspdf) {
     showStatus('Carregando gerador de PDF...', 'loading');
     await carregarScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
   }
-
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-
-  const DARK   = '#1A1A2E', GOLD = '#C9A84C', WHITE = '#FFFFFF';
-  const GRAY   = '#F5F5F5', BLUELT = '#EEF2F7', GTXT = '#555555', DTXT = '#1A1A2E';
-  const PW = 180, ML = 15;
-  let y = 0;
-  const hex = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+  const DARK='#1A1A2E',GOLD='#C9A84C',WHITE='#FFFFFF',GRAY='#F5F5F5',BLUELT='#EEF2F7',GTXT='#555555',DTXT='#1A1A2E';
+  const PW=180,ML=15;
+  let y=0;
+  const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
 
   const titulo      = document.getElementById('titulo').value.trim() || 'Reunião';
   const tipo        = document.getElementById('tipo').value || '';
@@ -518,253 +616,136 @@ async function baixarPDF() {
   const frequencia  = document.getElementById('frequencia').value;
   const ata = ataAtual;
 
-  // FAIXA 1 — Título escuro
-  doc.setFillColor(...hex(DARK));
-  doc.rect(0, 0, 210, 22, 'F');
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(20);
-  doc.setTextColor(...hex(GOLD));
-  doc.text('ATA DE REUNIÃO', 105, 14, { align: 'center' });
-  y = 22;
+  // FAIXA 1
+  doc.setFillColor(...hex(DARK));doc.rect(0,0,210,22,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(20);doc.setTextColor(...hex(GOLD));
+  doc.text('ATA DE REUNIÃO',105,14,{align:'center'});y=22;
 
-  // FAIXA 2 — Subtítulo dourado
-  doc.setFillColor(...hex(GOLD));
-  doc.rect(0, y, 210, 10, 'F');
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(11);
-  doc.setTextColor(...hex(DARK));
-  const subtit = recorrente && frequencia ? `${titulo.toUpperCase()} · ${frequencia.toUpperCase()}` : titulo.toUpperCase();
-  doc.text(subtit, 105, y + 7, { align: 'center' });
-  y += 10;
+  // FAIXA 2
+  doc.setFillColor(...hex(GOLD));doc.rect(0,y,210,10,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(...hex(DARK));
+  const subtit=recorrente&&frequencia?`${titulo.toUpperCase()} · ${frequencia.toUpperCase()}`:titulo.toUpperCase();
+  doc.text(subtit,105,y+7,{align:'center'});y+=10;
 
-  // FAIXA 3 — Tipo | Data | Local escuro
-  doc.setFillColor(...hex(DARK));
-  doc.rect(0, y, 210, 10, 'F');
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(8.5);
-  doc.setTextColor(...hex(WHITE));
-  doc.text(`Tipo: ${tipo}`, ML, y + 6.5);
-  doc.text(`Data: ${dataFmt}`, 105, y + 6.5, { align: 'center' });
-  doc.text(local, 210 - ML, y + 6.5, { align: 'right' });
-  doc.setDrawColor(...hex(GOLD));
-  doc.setLineWidth(0.3);
-  doc.line(75, y+1.5, 75, y+8.5);
-  doc.line(135, y+1.5, 135, y+8.5);
-  y += 10;
+  // FAIXA 3
+  doc.setFillColor(...hex(DARK));doc.rect(0,y,210,10,'F');
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...hex(WHITE));
+  doc.text(`Tipo: ${tipo}`,ML,y+6.5);
+  doc.text(`Data: ${dataFmt}`,105,y+6.5,{align:'center'});
+  doc.text(local,210-ML,y+6.5,{align:'right'});
+  doc.setDrawColor(...hex(GOLD));doc.setLineWidth(0.3);
+  doc.line(75,y+1.5,75,y+8.5);doc.line(135,y+1.5,135,y+8.5);y+=10;
 
-  // INFO BOX — azul claro
-  doc.setFillColor(...hex(BLUELT));
-  doc.rect(0, y, 210, 14, 'F');
-  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...hex(DTXT));
-  doc.text('Local:', ML, y + 5.5);
-  doc.setFont('helvetica','normal'); doc.setTextColor(...hex(GTXT));
-  doc.text(`${local}   |   Facilitador: ${facilitador}`, ML + 11, y + 5.5);
-  doc.setFont('helvetica','bold'); doc.setTextColor(...hex(DTXT));
-  doc.text('Participantes:', ML, y + 11);
-  doc.setFont('helvetica','normal'); doc.setTextColor(...hex(GTXT));
-  const particFit = doc.splitTextToSize(partic, PW - 28);
-  doc.text(particFit[0] || '', ML + 26, y + 11);
-  doc.setDrawColor(...hex(GOLD)); doc.setLineWidth(0.8);
-  doc.line(0, y + 14, 210, y + 14);
-  y += 18;
+  // INFO BOX
+  doc.setFillColor(...hex(BLUELT));doc.rect(0,y,210,14,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...hex(DTXT));
+  doc.text('Local:',ML,y+5.5);
+  doc.setFont('helvetica','normal');doc.setTextColor(...hex(GTXT));
+  doc.text(`${local}   |   Facilitador: ${facilitador}`,ML+11,y+5.5);
+  doc.setFont('helvetica','bold');doc.setTextColor(...hex(DTXT));
+  doc.text('Participantes:',ML,y+11);
+  doc.setFont('helvetica','normal');doc.setTextColor(...hex(GTXT));
+  doc.text(doc.splitTextToSize(partic,PW-28)[0]||'',ML+26,y+11);
+  doc.setDrawColor(...hex(GOLD));doc.setLineWidth(0.8);doc.line(0,y+14,210,y+14);y+=18;
 
-  // ── HELPERS ──────────────────────────────────────────────────
-  const addPage = () => { doc.addPage(); y = 15; };
-  const checkY  = (n=10) => { if (y + n > 272) addPage(); };
+  const addPage=()=>{doc.addPage();y=15;};
+  const checkY=(n=10)=>{if(y+n>272)addPage();};
+  const secao=txt=>{checkY(14);doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor(...hex(GOLD));doc.text(txt,ML,y);y+=2;doc.setDrawColor(...hex(GOLD));doc.setLineWidth(0.4);doc.line(ML,y,ML+PW,y);y+=5;};
+  const subsecao=txt=>{checkY(8);doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(...hex(DTXT));doc.text(txt,ML,y);y+=5;};
+  const bullet=txt=>{const clean=txt.replace(/<[^>]+>/g,'');const linhas=doc.splitTextToSize(`• ${clean}`,PW-4);linhas.forEach(l=>{checkY(5);doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...hex(DTXT));doc.text(l,ML+3,y);y+=4.5;});y+=0.5;};
+  const corpo=txt=>{checkY(8);doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...hex(DTXT));const linhas=doc.splitTextToSize(txt,PW);linhas.forEach(l=>{checkY(5);doc.text(l,ML,y);y+=4.5;});y+=2;};
 
-  const secao = txt => {
-    checkY(14);
-    doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(...hex(GOLD));
-    doc.text(txt, ML, y); y += 2;
-    doc.setDrawColor(...hex(GOLD)); doc.setLineWidth(0.4);
-    doc.line(ML, y, ML+PW, y); y += 5;
+  const tabelaPassos=passos=>{
+    const cw=[38,104,38];const rh=7;checkY(rh+4);
+    doc.setFillColor(...hex(DARK));doc.rect(ML,y,PW,rh,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(...hex(GOLD));
+    let cx=ML;['Responsável','Ação','Prazo'].forEach((h,i)=>{doc.text(h,cx+cw[i]/2,y+5,{align:'center'});cx+=cw[i];});y+=rh;
+    passos.forEach((p,idx)=>{
+      const acao=p.acao||'';const linhasAcao=doc.splitTextToSize(acao,cw[1]-4);const rowH=Math.max(7,linhasAcao.length*4.5+3);
+      checkY(rowH);doc.setFillColor(...hex(idx%2===0?WHITE:GRAY));doc.rect(ML,y,PW,rowH,'F');
+      doc.setDrawColor(...hex('#CCCCCC'));doc.setLineWidth(0.3);doc.rect(ML,y,PW,rowH,'S');
+      doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(...hex(DTXT));
+      doc.text(doc.splitTextToSize(p.responsavel||'',cw[0]-4)[0],ML+2,y+5);
+      doc.setFont('helvetica','normal');linhasAcao.forEach((l,li)=>doc.text(l,ML+cw[0]+2,y+5+li*4.5));
+      doc.text(doc.splitTextToSize(p.prazo||'',cw[2]-4)[0],ML+cw[0]+cw[1]+2,y+5);y+=rowH;
+    });y+=4;
   };
 
-  const subsecao = txt => {
-    checkY(8);
-    doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...hex(DTXT));
-    doc.text(txt, ML, y); y += 5;
+  const caixaCompromissos=items=>{
+    if(!items?.length)return;checkY(12);
+    doc.setFillColor(...hex(GOLD));doc.rect(ML,y,PW,8,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(...hex(DARK));
+    doc.text('COMPROMISSOS PARA A PROXIMA REUNIAO',ML+PW/2,y+5.5,{align:'center'});y+=8;
+    const startY=y;
+    items.forEach(item=>{checkY(6);const linhas=doc.splitTextToSize(`• ${item}`,PW-8);const bh=linhas.length*4.5+2;doc.setFillColor(255,248,231);doc.rect(ML,y,PW,bh,'F');doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...hex(DTXT));linhas.forEach((l,i)=>doc.text(l,ML+4,y+5+i*4.5));y+=bh;});
+    doc.setDrawColor(...hex(GOLD));doc.setLineWidth(0.8);doc.rect(ML,startY-8,PW,y-startY+8,'S');y+=4;
   };
 
-  const bullet = txt => {
-    const clean = txt.replace(/<[^>]+>/g,'');
-    const bold  = [];
-    let m; const re = /<b>(.*?)<\/b>/g;
-    let last = 0; const parts = [];
-    while ((m = re.exec(txt)) !== null) {
-      if (m.index > last) parts.push({ t: txt.slice(last, m.index).replace(/<[^>]+>/g,''), b: false });
-      parts.push({ t: m[1], b: true });
-      last = m.index + m[0].length;
-    }
-    if (last < txt.length) parts.push({ t: txt.slice(last).replace(/<[^>]+>/g,''), b: false });
+  if(ata.tema_geral){secao('1. TEMA GERAL');corpo(ata.tema_geral);}
+  if(ata.pontos_discutidos?.length){secao('2. PONTOS DISCUTIDOS');ata.pontos_discutidos.forEach(b=>{if(b.titulo)subsecao(b.titulo);(b.items||[]).forEach(i=>bullet(typeof i==='string'?i:JSON.stringify(i)));});y+=2;}
+  if(ata.decisoes_tomadas?.length){secao('3. DECISÕES TOMADAS');ata.decisoes_tomadas.forEach(d=>bullet(typeof d==='string'?d:JSON.stringify(d)));y+=2;}
+  if(ata.proximos_passos?.length){secao('4. PRÓXIMOS PASSOS');tabelaPassos(ata.proximos_passos);}
+  if(ata.compromissos_proxima_reuniao?.length)caixaCompromissos(ata.compromissos_proxima_reuniao);
+  if(ata.observacoes?.length){const n=ata.compromissos_proxima_reuniao?.length?'6':'5';secao(`${n}. OBSERVAÇÕES`);ata.observacoes.forEach(o=>bullet(typeof o==='string'?o:JSON.stringify(o)));y+=2;}
 
-    const linhas = doc.splitTextToSize(`• ${clean}`, PW - 4);
-    linhas.forEach(l => { checkY(5); doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...hex(DTXT)); doc.text(l, ML+3, y); y += 4.5; });
-    y += 0.5;
-  };
+  checkY(28);y+=6;
+  const meses=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const d=dataVal?new Date(dataVal+'T12:00'):new Date();
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...hex(DTXT));
+  doc.text(`Campina Grande, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}.`,ML,y);y+=14;
+  doc.setDrawColor(...hex(DTXT));doc.setLineWidth(0.3);doc.line(ML,y,ML+55,y);y+=4;
+  doc.setFont('helvetica','bold');doc.text(facilitador||'Facilitador',ML,y);y+=4;
+  doc.setFont('helvetica','normal');doc.setTextColor(...hex(GTXT));doc.text('Facilitador',ML,y);
 
-  const corpo = txt => {
-    checkY(8);
-    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...hex(DTXT));
-    const linhas = doc.splitTextToSize(txt, PW);
-    linhas.forEach(l => { checkY(5); doc.text(l, ML, y); y += 4.5; }); y += 2;
-  };
+  const total=doc.internal.getNumberOfPages();
+  for(let i=1;i<=total;i++){doc.setPage(i);doc.setDrawColor(...hex(GOLD));doc.setLineWidth(0.4);doc.line(ML,284,ML+PW,284);doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(...hex(GTXT));doc.text('Ata gerada com auxílio de IA com base em transcrição automática. Recomenda-se revisão para validação de informações específicas. | RL Construções © 2026',105,288,{align:'center'});}
 
-  const tabelaPassos = passos => {
-    const cw = [38, 104, 38];
-    const rh = 7;
-    checkY(rh + 4);
-    doc.setFillColor(...hex(DARK));
-    doc.rect(ML, y, PW, rh, 'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...hex(GOLD));
-    let cx = ML;
-    ['Responsável','Ação','Prazo'].forEach((h,i) => { doc.text(h, cx + cw[i]/2, y+5, {align:'center'}); cx += cw[i]; });
-    y += rh;
-    passos.forEach((p, idx) => {
-      const acao = p.acao || p.descricao || '';
-      const linhasAcao = doc.splitTextToSize(acao, cw[1]-4);
-      const rowH = Math.max(7, linhasAcao.length * 4.5 + 3);
-      checkY(rowH);
-      doc.setFillColor(...hex(idx%2===0 ? WHITE : GRAY));
-      doc.rect(ML, y, PW, rowH, 'F');
-      doc.setDrawColor(...hex('#CCCCCC')); doc.setLineWidth(0.3); doc.rect(ML, y, PW, rowH, 'S');
-      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...hex(DTXT));
-      doc.text(doc.splitTextToSize(p.responsavel||'', cw[0]-4)[0], ML+2, y+5);
-      doc.setFont('helvetica','normal');
-      linhasAcao.forEach((l, li) => doc.text(l, ML+cw[0]+2, y+5+li*4.5));
-      doc.text(doc.splitTextToSize(p.prazo||'', cw[2]-4)[0], ML+cw[0]+cw[1]+2, y+5);
-      y += rowH;
-    }); y += 4;
-  };
-
-  const caixaCompromissos = items => {
-    if (!items?.length) return;
-    checkY(12);
-    doc.setFillColor(...hex(GOLD));
-    doc.rect(ML, y, PW, 8, 'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...hex(DARK));
-    doc.text('COMPROMISSOS PARA A PROXIMA REUNIAO', ML + PW/2, y+5.5, {align:'center'});
-    y += 8;
-    const startY = y;
-    items.forEach(item => {
-      checkY(6);
-      const linhas = doc.splitTextToSize(`• ${item}`, PW-8);
-      const bh = linhas.length * 4.5 + 2;
-      doc.setFillColor(255, 248, 231);
-      doc.rect(ML, y, PW, bh, 'F');
-      doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...hex(DTXT));
-      linhas.forEach((l,i) => doc.text(l, ML+4, y+5+i*4.5));
-      y += bh;
-    });
-    doc.setDrawColor(...hex(GOLD)); doc.setLineWidth(0.8);
-    doc.rect(ML, startY-8, PW, y-startY+8, 'S'); y += 4;
-  };
-
-  // ── SEÇÕES ────────────────────────────────────────────────────
-  if (ata.tema_geral) { secao('1. TEMA GERAL'); corpo(ata.tema_geral); }
-
-  if (ata.pontos_discutidos?.length) {
-    secao('2. PONTOS DISCUTIDOS');
-    ata.pontos_discutidos.forEach(b => {
-      if (b.titulo) subsecao(b.titulo);
-      (b.items||[]).forEach(i => bullet(typeof i==='string'?i:JSON.stringify(i)));
-    }); y += 2;
-  }
-
-  if (ata.decisoes_tomadas?.length) {
-    secao('3. DECISÕES TOMADAS');
-    ata.decisoes_tomadas.forEach(d => bullet(typeof d==='string'?d:JSON.stringify(d))); y += 2;
-  }
-
-  if (ata.proximos_passos?.length) {
-    secao('4. PRÓXIMOS PASSOS');
-    tabelaPassos(ata.proximos_passos);
-  }
-
-  if (ata.compromissos_proxima_reuniao?.length) caixaCompromissos(ata.compromissos_proxima_reuniao);
-
-  if (ata.observacoes?.length) {
-    const n = ata.compromissos_proxima_reuniao?.length ? '6' : '5';
-    secao(`${n}. OBSERVAÇÕES`);
-    ata.observacoes.forEach(o => bullet(typeof o==='string'?o:JSON.stringify(o))); y += 2;
-  }
-
-  // ASSINATURA
-  checkY(28);
-  y += 6;
-  const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-  const d = dataVal ? new Date(dataVal+'T12:00') : new Date();
-  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...hex(DTXT));
-  doc.text(`Campina Grande, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}.`, ML, y);
-  y += 14;
-  doc.setDrawColor(...hex(DTXT)); doc.setLineWidth(0.3); doc.line(ML, y, ML+55, y); y += 4;
-  doc.setFont('helvetica','bold'); doc.text(facilitador||'Facilitador', ML, y); y += 4;
-  doc.setFont('helvetica','normal'); doc.setTextColor(...hex(GTXT)); doc.text('Facilitador', ML, y);
-
-  // RODAPÉ em todas as páginas
-  const total = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= total; i++) {
-    doc.setPage(i);
-    doc.setDrawColor(...hex(GOLD)); doc.setLineWidth(0.4); doc.line(ML, 284, ML+PW, 284);
-    doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(...hex(GTXT));
-    doc.text('Ata gerada com auxílio de IA com base em transcrição automática. Recomenda-se revisão para validação de informações específicas. | RL Construções © 2026', 105, 288, {align:'center'});
-  }
-
-  const nomeFmt = titulo.toLowerCase().replace(/\s+/g,'_');
+  const nomeFmt=titulo.toLowerCase().replace(/\s+/g,'_');
   doc.save(`Ata_${nomeFmt}_${dataFmt.replace(/\//g,'-')}.pdf`);
-  showStatus('PDF baixado!', 'ok');
+  showStatus('PDF baixado!','ok');
 }
 
 // ── UTILS ────────────────────────────────────────────────────────
-function novaAta() {
-  document.getElementById('transcricao').value = '';
-  updateCount();
+function novaAta(){
+  document.getElementById('transcricao').value='';updateCount();
   document.getElementById('resultado').classList.remove('show');
-  document.getElementById('status').className = 'status';
-  document.getElementById('audio-player').style.display = 'none';
-  document.getElementById('timer').classList.remove('show');
-  document.getElementById('btn-transcrever-grav').style.display = 'none';
-  document.getElementById('btn-transcrever-upl').style.display = 'none';
+  document.getElementById('status').className='status';
+  document.getElementById('audio-player').src='';
+  document.getElementById('progress-box').classList.remove('show');
+  document.getElementById('progress-box-upl').classList.remove('show');
   document.getElementById('upload-info').classList.remove('show');
-  uploadBlobs = []; gravacaoBlob = null; ataAtual = null;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('btn-transcrever-upl').style.display='none';
+  uploadBlobs=[];gravacaoBlob=null;ataAtual=null;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function adicionarHistorico(titulo, data, tipo) {
-  historico.unshift({ titulo, data, tipo, ata: ataAtual });
-  document.getElementById('historico-card').style.display = 'block';
-  document.getElementById('hist-list').innerHTML = historico.map((item, i) => `
+function adicionarHistorico(titulo,data,tipo){
+  historico.unshift({titulo,data,tipo,ata:ataAtual});
+  document.getElementById('historico-card').style.display='block';
+  document.getElementById('hist-list').innerHTML=historico.map((item,i)=>`
     <div class="hist-item">
       <div class="hist-info"><div class="hist-titulo">${item.titulo}</div><div class="hist-meta">${item.tipo} · ${item.data}</div></div>
       <button class="hist-btn" onclick="redownload(${i})">⬇ PDF</button>
     </div>`).join('');
 }
 
-async function redownload(i) { ataAtual = historico[i].ata; await baixarPDF(); }
+async function redownload(i){ataAtual=historico[i].ata;await baixarPDF();}
 
-function setLoading(on) {
-  const btn = document.getElementById('btn-gerar');
-  btn.disabled = on;
-  btn.innerHTML = on ? '<div style="width:20px;height:20px;border:3px solid rgba(0,0,0,0.2);border-top-color:#1a1a2e;border-radius:50%;animation:spin 0.7s linear infinite"></div> PROCESSANDO...' : '⚡ GERAR ATA EM PDF';
+function setLoading(on){
+  const btn=document.getElementById('btn-gerar');btn.disabled=on;
+  btn.innerHTML=on?'<div style="width:20px;height:20px;border:3px solid rgba(0,0,0,0.2);border-top-color:#1a1a2e;border-radius:50%;animation:spin 0.7s linear infinite"></div> PROCESSANDO...':'⚡ GERAR ATA EM PDF';
 }
 
-function showStatus(msg, tipo) {
-  const el = document.getElementById('status');
-  el.className = 'status show' + (tipo==='err' ? ' err' : tipo==='ok' ? ' ok' : '');
-  document.getElementById('status-txt').textContent = msg;
-  document.getElementById('spin').style.display = tipo==='loading' ? 'block' : 'none';
+function showStatus(msg,tipo){
+  const el=document.getElementById('status');
+  el.className='status show'+(tipo==='err'?' err':tipo==='ok'?' ok':'');
+  document.getElementById('status-txt').textContent=msg;
+  document.getElementById('spin').style.display=tipo==='loading'?'block':'none';
 }
 
-function carregarScript(src) {
-  return new Promise((res, rej) => {
-    const s = document.createElement('script');
-    s.src = src; s.onload = res; s.onerror = rej;
-    document.head.appendChild(s);
-  });
-}
+function carregarScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
 
-// Data padrão = hoje
-document.getElementById('data').value = new Date().toISOString().split('T')[0];
+document.getElementById('data').value=new Date().toISOString().split('T')[0];
 </script>
 </body>
 </html>
