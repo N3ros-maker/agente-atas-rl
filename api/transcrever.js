@@ -4,6 +4,7 @@ import fs from 'fs';
 export const config = {
   api: {
     bodyParser: false,
+    sizeLimit: '25mb',
   },
 };
 
@@ -15,11 +16,10 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY não configurada' });
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'GROQ_API_KEY não configurada' });
 
-    // Parsear o FormData com formidable
-    const form = formidable({ maxFileSize: 30 * 1024 * 1024 });
+    const form = formidable({ maxFileSize: 25 * 1024 * 1024 });
     const [, files] = await form.parse(req);
 
     const file = files.file?.[0];
@@ -29,21 +29,19 @@ export default async function handler(req, res) {
     const fileName = file.originalFilename || 'audio.m4a';
     const mimeType = file.mimetype || 'audio/mp4';
 
-    // Montar FormData nativo do Node 18+
     const fd = new FormData();
     fd.append('file', new Blob([fileBuffer], { type: mimeType }), fileName);
-    fd.append('model', 'whisper-1');
+    fd.append('model', 'whisper-large-v3');
     fd.append('language', 'pt');
     fd.append('response_format', 'text');
 
-    const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + apiKey },
       body: fd,
     });
 
     const text = await response.text();
-    
     try { fs.unlinkSync(file.filepath); } catch(e) {}
 
     if (!response.ok) return res.status(response.status).json({ error: text });
