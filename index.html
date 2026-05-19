@@ -335,7 +335,7 @@ async function transcreverGravacao() {
   progressStatus.textContent = 'Obtendo credenciais...';
 
   try {
-    const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.key);
+    const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.openaiKey);
 
     // Se couber direto, envia de uma vez
     if (gravacaoBlob.size <= WHISPER_LIMIT) {
@@ -441,7 +441,7 @@ async function transcreverUpload() {
   document.getElementById('btn-transcrever-upl').style.display = 'none';
 
   try {
-    const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.key);
+    const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.openaiKey);
     const transcricoes = [];
 
     for (let i = 0; i < uploadBlobs.length; i++) {
