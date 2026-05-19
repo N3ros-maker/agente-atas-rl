@@ -1,7 +1,9 @@
+import formidable from 'formidable';
+import fs from 'fs';
+
 export const config = {
   api: {
     bodyParser: false,
-    responseLimit: false,
   },
 };
 
@@ -16,25 +18,34 @@ export default async function handler(req, res) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY não configurada' });
 
-    // Lê o body como buffer
-    const chunks = [];
-    for await (const chunk of req) chunks.push(chunk);
-    const buffer = Buffer.concat(chunks);
+    // Parsear o FormData com formidable
+    const form = formidable({ maxFileSize: 30 * 1024 * 1024 });
+    const [, files] = await form.parse(req);
 
-    // Extrai boundary do Content-Type
-    const contentType = req.headers['content-type'] || '';
+    const file = files.file?.[0];
+    if (!file) return res.status(400).json({ error: 'Nenhum arquivo recebido' });
 
-    // Repassa direto para o Whisper
+    const fileBuffer = fs.readFileSync(file.filepath);
+    const fileName = file.originalFilename || 'audio.m4a';
+    const mimeType = file.mimetype || 'audio/mp4';
+
+    // Montar FormData nativo do Node 18+
+    const fd = new FormData();
+    fd.append('file', new Blob([fileBuffer], { type: mimeType }), fileName);
+    fd.append('model', 'whisper-1');
+    fd.append('language', 'pt');
+    fd.append('response_format', 'text');
+
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + apiKey,
-        'Content-Type': contentType,
-      },
-      body: buffer,
+      headers: { 'Authorization': 'Bearer ' + apiKey },
+      body: fd,
     });
 
     const text = await response.text();
+    
+    try { fs.unlinkSync(file.filepath); } catch(e) {}
+
     if (!response.ok) return res.status(response.status).json({ error: text });
     return res.status(200).json({ transcricao: text });
 
