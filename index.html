@@ -392,7 +392,12 @@ async function transcreverGravacao() {
 
 async function chamarWhisper(blob, nome, apiKey) {
   const fd = new FormData();
-  fd.append('file', blob, nome);
+  // Garante extensão correta para o Whisper reconhecer o formato
+  const ext = nome.split('.').pop().toLowerCase();
+  const mimeMap = { m4a:'audio/mp4', mp3:'audio/mpeg', wav:'audio/wav', webm:'audio/webm', ogg:'audio/ogg', mp4:'audio/mp4', flac:'audio/flac' };
+  const mime = mimeMap[ext] || blob.type || 'audio/mpeg';
+  const nomeCorreto = nome.includes('.') ? nome : nome + '.mp3';
+  fd.append('file', new Blob([blob], { type: mime }), nomeCorreto);
   fd.append('model', 'whisper-1');
   fd.append('language', 'pt');
   fd.append('response_format', 'text');
