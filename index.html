@@ -389,19 +389,15 @@ async function transcreverGravacao() {
 }
 
 async function chamarWhisper(blob, nome) {
-  const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.openaiKey);
   const fd = new FormData();
-  fd.append('file', blob, nome);
-  fd.append('model', 'whisper-1');
-  fd.append('language', 'pt');
-  fd.append('response_format', 'text');
-  const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+  fd.append('audio', blob, nome);
+  const res = await fetch('https://transcrever-audio.armando-pereira15.workers.dev', {
     method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + apiKey },
     body: fd
   });
-  if (!res.ok) throw new Error('Whisper: ' + await res.text());
-  return await res.text();
+  if (!res.ok) throw new Error('Worker: ' + await res.text());
+  const json = await res.json();
+  return json.transcricao || json.text || '';
 }
 
 function jogarNoTexto(texto) {
