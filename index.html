@@ -391,11 +391,7 @@ async function transcreverGravacao() {
 async function chamarWhisper(blob, nome) {
   const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.openaiKey);
   const fd = new FormData();
-  const ext = nome.split('.').pop().toLowerCase();
-  const mimeMap = { m4a:'audio/mp4', mp3:'audio/mpeg', wav:'audio/wav', webm:'audio/webm', ogg:'audio/ogg', mp4:'audio/mp4', flac:'audio/flac' };
-  const mime = mimeMap[ext] || blob.type || 'audio/mp4';
-  const nomeCorreto = nome.includes('.') ? nome : nome + '.m4a';
-  fd.append('file', new Blob([blob], { type: mime }), nomeCorreto);
+  fd.append('file', blob, nome);
   fd.append('model', 'whisper-1');
   fd.append('language', 'pt');
   fd.append('response_format', 'text');
