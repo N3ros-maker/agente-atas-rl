@@ -335,8 +335,6 @@ async function transcreverGravacao() {
   progressStatus.textContent = 'Obtendo credenciais...';
 
   try {
-    const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.openaiKey);
-
     // Se couber direto, envia de uma vez
     if (gravacaoBlob.size <= WHISPER_LIMIT) {
       progressStatus.textContent = 'Transcrevendo...';
@@ -391,19 +389,23 @@ async function transcreverGravacao() {
 }
 
 async function chamarWhisper(blob, nome) {
+  const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.openaiKey);
   const fd = new FormData();
   const ext = nome.split('.').pop().toLowerCase();
   const mimeMap = { m4a:'audio/mp4', mp3:'audio/mpeg', wav:'audio/wav', webm:'audio/webm', ogg:'audio/ogg', mp4:'audio/mp4', flac:'audio/flac' };
-  const mime = mimeMap[ext] || blob.type || 'audio/mpeg';
+  const mime = mimeMap[ext] || blob.type || 'audio/mp4';
   const nomeCorreto = nome.includes('.') ? nome : nome + '.m4a';
   fd.append('file', new Blob([blob], { type: mime }), nomeCorreto);
   fd.append('model', 'whisper-1');
   fd.append('language', 'pt');
   fd.append('response_format', 'text');
-  const res = await fetch('/api/transcrever', { method: 'POST', body: fd });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.error || 'Erro ao transcrever');
-  return json.transcricao;
+  const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + apiKey },
+    body: fd
+  });
+  if (!res.ok) throw new Error('Whisper: ' + await res.text());
+  return await res.text();
 }
 
 function jogarNoTexto(texto) {
@@ -442,7 +444,6 @@ async function transcreverUpload() {
   document.getElementById('btn-transcrever-upl').style.display = 'none';
 
   try {
-    const apiKey = await fetch('/api/openai-key').then(r => r.json()).then(j => j.openaiKey);
     const transcricoes = [];
 
     for (let i = 0; i < uploadBlobs.length; i++) {
